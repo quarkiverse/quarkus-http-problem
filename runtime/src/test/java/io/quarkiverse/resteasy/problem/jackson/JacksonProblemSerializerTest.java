@@ -55,8 +55,8 @@ class JacksonProblemSerializerTest {
     }
 
     @Test
-    @DisplayName("Should decode uri for instance field")
-    void shouldDecodeUriForInstanceField() throws IOException {
+    @DisplayName("Should serialize instance field preserving URI encoding")
+    void shouldSerializeInstanceFieldPreservingEncoding() throws IOException {
         HttpProblem problem = HttpProblem.builder()
                 .withStatus(NOT_FOUND)
                 .withInstance(URI.create("%2Fnon%7Cexisting%7Bpath+%2Fwith%7Bunwise%5Ccharacters%3E%23"))
@@ -65,7 +65,7 @@ class JacksonProblemSerializerTest {
         serializer.serialize(problem, jsonGenerator, null);
 
         assertThat(serializedProblem()).contains("""
-                "instance":"/non|existing{path /with{unwise\\\\characters>#"}""");
+                "instance":"%2Fnon%7Cexisting%7Bpath+%2Fwith%7Bunwise%5Ccharacters%3E%23"}""");
     }
 
     private String serializedProblem() throws IOException {

@@ -43,7 +43,7 @@ class ProblemDefaultsProviderTest {
                 ProblemContext.of(new RuntimeException(), "/non|existing{path /with{unwise\\characters>#"));
 
         assertThat(problemWithUnwiseCharactersInPath.getInstance())
-                .hasPath("/non|existing{path+/with{unwise\\characters>#");
+                .hasPath("/non|existing{path /with{unwise\\characters>#");
     }
 
 }

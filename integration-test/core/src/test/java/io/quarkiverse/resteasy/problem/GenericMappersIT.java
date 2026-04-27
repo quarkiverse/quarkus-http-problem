@@ -60,6 +60,6 @@ class GenericMappersIT {
         given()
                 .get("/non|existing path /with unwisecharacters")
                 .then()
-                .body("instance", equalTo("/non|existing path /with unwisecharacters"));
+                .body("instance", equalTo("/non%7Cexisting%20path%20/with%20unwisecharacters"));
     }
 }
