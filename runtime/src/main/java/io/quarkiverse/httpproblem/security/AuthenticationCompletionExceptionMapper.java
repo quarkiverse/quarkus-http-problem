@@ -17,10 +17,6 @@ import io.quarkus.security.AuthenticationCompletionException;
  * <pre>
  * Exception indicating that a user authentication flow has failed and no challenge is required.
  * </pre>
- *
- * <br>
- *
- * @see io.quarkus.resteasy.runtime.AuthenticationCompletionExceptionMapper
  */
 @Priority(Priorities.USER - 1)
 public final class AuthenticationCompletionExceptionMapper extends ExceptionMapperBase<AuthenticationCompletionException> {

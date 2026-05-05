@@ -15,8 +15,6 @@ import io.vertx.ext.web.RoutingContext;
 
 /**
  * Mapper overriding default Quarkus exception mapper to make all error responses compliant with RFC7807.
- *
- * @see io.quarkus.resteasy.runtime.UnauthorizedExceptionMapper
  */
 public final class UnauthorizedExceptionReactiveMapper {
 

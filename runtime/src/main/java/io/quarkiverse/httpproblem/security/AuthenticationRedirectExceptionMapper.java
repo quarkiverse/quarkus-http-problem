@@ -10,8 +10,6 @@ import io.quarkus.security.AuthenticationRedirectException;
 
 /**
  * Mapper overriding default Quarkus exception mapper to make all error responses compliant with RFC7807.
- *
- * @see io.quarkus.resteasy.runtime.AuthenticationRedirectExceptionMapper
  */
 @Priority(Priorities.USER - 1)
 public final class AuthenticationRedirectExceptionMapper extends ExceptionMapperBase<AuthenticationRedirectException> {

@@ -73,12 +73,14 @@ public class ProblemProcessor {
                         .thatHandles("jakarta.validation.ConstraintViolationException"),
 
                 mapper(EXTENSION_MAIN_PACKAGE + "jackson.JsonProcessingExceptionMapper")
-                        .thatHandles("com.fasterxml.jackson.core.JsonProcessingException").onlyIf(new JacksonDetector()),
+                        .thatHandles("com.fasterxml.jackson.core.JsonProcessingException")
+                        .onlyIf(new JacksonDetector()),
                 mapper(EXTENSION_MAIN_PACKAGE + "jackson.UnrecognizedPropertyExceptionMapper")
                         .thatHandles("com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException")
                         .onlyIf(new JacksonDetector()),
                 mapper(EXTENSION_MAIN_PACKAGE + "jackson.InvalidFormatExceptionMapper")
-                        .thatHandles("com.fasterxml.jackson.databind.exc.InvalidFormatException").onlyIf(new JacksonDetector()),
+                        .thatHandles("com.fasterxml.jackson.databind.exc.InvalidFormatException")
+                        .onlyIf(new JacksonDetector()),
 
                 mapper(EXTENSION_MAIN_PACKAGE + "jsonb.RestEasyClassicJsonbExceptionMapper")
                         .thatHandles("jakarta.ws.rs.ProcessingException")

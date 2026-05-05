@@ -11,8 +11,6 @@ import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 
 /**
  * Mapper overriding default Quarkus exception mapper to make all error responses compliant with RFC7807.
- *
- * @see io.quarkus.resteasy.runtime.AuthenticationFailedExceptionMapper
  */
 @Priority(Priorities.USER - 1)
 public final class AuthenticationFailedExceptionMapper extends ExceptionMapperBase<AuthenticationFailedException> {

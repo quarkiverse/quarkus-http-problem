@@ -26,11 +26,7 @@ public final class ProblemContext {
     }
 
     public static ProblemContext of(Throwable exception, UriInfo uriInfo) {
-        try {
-            return new ProblemContext(exception, (uriInfo == null) ? null : uriInfo.getPath());
-        } catch (Exception e) { // quarkus-reactive throws ContextNotActiveException or NullPointerException when json request payload is malformed
-            return new ProblemContext(exception, null);
-        }
+        return new ProblemContext(exception, (uriInfo == null) ? null : uriInfo.getPath());
     }
 
     public static ProblemContext of(Throwable exception, String path) {

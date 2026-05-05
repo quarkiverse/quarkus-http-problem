@@ -14,8 +14,6 @@ import io.quarkiverse.httpproblem.HttpProblem;
 
 /**
  * Mapper overriding default Quarkus exception mapper to make all error responses compliant with RFC7807.
- *
- * @see io.quarkus.resteasy.runtime.ForbiddenExceptionMapper
  */
 @Priority(Priorities.USER)
 @APIResponse(responseCode = "403", description = "Forbidden: server understood the request but refused to process it")
