@@ -115,6 +115,9 @@ public class ProblemProcessor {
                         mapper.exceptionClassName, Priorities.AUTHENTICATION - 1, true)));
     }
 
+    // Unauthorized/AuthenticationFailed handling in Quarkus REST is reactive: it needs Vert.x RoutingContext and
+    // asynchronous challenge/response resolution (Uni<Response>). These classes therefore use
+    // @ServerExceptionMapper methods (not JAX-RS ExceptionMapper<T> providers) and must be registered as custom mappers.
     @BuildStep
     void registerCustomExceptionMappers(BuildProducer<CustomExceptionMapperBuildItem> customExceptionMapper) {
         customExceptionMapper.produce(

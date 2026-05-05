@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 import jakarta.ws.rs.core.Response;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
@@ -45,7 +44,6 @@ import io.quarkiverse.httpproblem.postprocessing.ProblemRecorder;
 @Fork(value = 1, warmups = 0)
 @Warmup(iterations = 15, time = 200, timeUnit = MILLISECONDS)
 @Measurement(iterations = 15, time = 200, timeUnit = MILLISECONDS)
-@Disabled
 public class ProblemMapperBenchmark {
 
     @State(Scope.Thread)
@@ -59,8 +57,6 @@ public class ProblemMapperBenchmark {
         public void initMapper() {
             ProblemRecorder recorder = new ProblemRecorder();
             recorder.configureMdc(Sets.newHashSet("uuid"));
-
-            //mapper.uriInfo = new ResteasyUriInfo("http://localhost/endpoint", "endpoint");
         }
     }
 
