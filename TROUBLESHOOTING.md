@@ -35,7 +35,7 @@ This behaviour can be observed when RestClient is used without `ExceptionMapper`
 **Fix**: create even the simplest `ExceptionMapper` via `@RegisterProvider` for your RestClient, where you can wrap `WebApplicationException` with custom `Exception` (even `RuntimeException` will do the trick).
 
 ### Explanation
-This is all by-design: [JaxRS specification](https://raw.githubusercontent.com/javaee/jax-rs-spec/master/spec.pdf) defines how `WebApplicationException` should be translated into http response, which all implementations (including RESTeasy) must comply.
+This is all by-design: [JaxRS specification](https://raw.githubusercontent.com/javaee/jax-rs-spec/master/spec.pdf) defines how `WebApplicationException` should be translated into http response, which all implementations must comply.
 
 ```
 Section 3.3.4

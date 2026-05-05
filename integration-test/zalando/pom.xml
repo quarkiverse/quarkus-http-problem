@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.quarkiverse.resteasy-problem</groupId>
-        <artifactId>quarkus-resteasy-problem-integration-test</artifactId>
+        <groupId>io.quarkiverse.http-problem</groupId>
+        <artifactId>quarkus-http-problem-integration-test</artifactId>
         <version>999-SNAPSHOT</version>
     </parent>
 
-    <artifactId>quarkus-resteasy-problem-integration-test-zalando</artifactId>
-    <name>Quarkus - RESTeasy - Problem - Integration Tests - Zalando Problem</name>
+    <artifactId>quarkus-http-problem-integration-test-zalando</artifactId>
+    <name>Quarkus - Http-Problem - Integration Tests - Zalando Problem</name>
 
     <dependencies>
         <dependency>

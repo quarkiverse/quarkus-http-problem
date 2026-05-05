@@ -1,8 +1,9 @@
-name: "RESTeasy Problem"
+name: "Http Problem"
 metadata:
-  short-name: "resteasy-problem"
+  short-name: "http-problem"
   keywords:
   - "rfc7807"
+  - "http-problem"
   - "rest"
   - "resteasy"
   - "jaxrs"
@@ -12,10 +13,10 @@ metadata:
   - "problem"
   - "error"
   - "exception"
-  guide: "https://github.com/quarkiverse/quarkus-resteasy-problem/blob/main/README.md"
+  guide: "https://github.com/quarkiverse/quarkus-http-problem/blob/main/README.md"
   categories:
   - "web"
   - "serialization"
   status: "stable"
   config:
-    - "quarkus.resteasy.problem."
+    - "quarkus.http-problem."
