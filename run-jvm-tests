@@ -17,8 +17,6 @@ set -e
 
 ./mvnw clean install -Pquick
 
-./mvnw clean verify -P it,jackson-classic -pl 'integration-test/core,integration-test/rest-client'
-./mvnw clean verify -P it,jsonb-classic -pl 'integration-test/core,integration-test/rest-client'
-./mvnw clean verify -P it,jackson-reactive -pl 'integration-test/core,integration-test/rest-client'
-./mvnw clean verify -P it,jsonb-reactive -pl 'integration-test/core,integration-test/rest-client'
+./mvnw clean verify -P it,jackson -pl 'integration-test/core,integration-test/rest-client'
+./mvnw clean verify -P it,jsonb -pl 'integration-test/core,integration-test/rest-client'
 ./mvnw clean verify -P it -pl 'integration-test/openapi,integration-test/zalando'

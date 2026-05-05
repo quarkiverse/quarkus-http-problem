@@ -1,5 +1,6 @@
-package io.quarkiverse.resteasy.problem;
+package io.quarkiverse.httpproblem;
 
+import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import jakarta.validation.ConstraintViolationException;

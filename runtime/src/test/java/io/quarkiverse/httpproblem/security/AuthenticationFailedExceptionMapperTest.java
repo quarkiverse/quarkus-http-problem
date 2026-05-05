@@ -1,6 +1,5 @@
 package io.quarkiverse.httpproblem.security;
 
-import static io.quarkiverse.httpproblem.ExceptionMapperAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -19,12 +18,6 @@ class AuthenticationFailedExceptionMapperTest {
     @BeforeEach
     void setup() {
         mapper.currentVertxRequest = mock(CurrentVertxRequest.class);
-    }
-
-    @Test
-    void shouldHaveHigherPriorityThanBuiltInMapper() {
-        assertThat(mapper.getClass())
-                .hasPrecedenceOver(io.quarkus.resteasy.runtime.AuthenticationFailedExceptionMapper.class);
     }
 
     @Test

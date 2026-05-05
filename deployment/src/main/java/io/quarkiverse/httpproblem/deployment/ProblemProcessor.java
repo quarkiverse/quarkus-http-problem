@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import io.quarkus.resteasy.reactive.spi.CustomExceptionMapperBuildItem;
+import io.quarkus.resteasy.reactive.spi.ExceptionMapperBuildItem;
 import jakarta.ws.rs.Priorities;
 
 import org.eclipse.microprofile.openapi.OASFilter;
@@ -29,29 +31,24 @@ import io.quarkus.deployment.builditem.LiveReloadBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.jsonb.spi.JsonbDeserializerBuildItem;
 import io.quarkus.jsonb.spi.JsonbSerializerBuildItem;
-import io.quarkus.resteasy.common.spi.ResteasyJaxrsProviderBuildItem;
-import io.quarkus.resteasy.reactive.spi.CustomExceptionMapperBuildItem;
-import io.quarkus.resteasy.reactive.spi.ExceptionMapperBuildItem;
 import io.quarkus.smallrye.openapi.deployment.spi.AddToOpenAPIDefinitionBuildItem;
 
 public class ProblemProcessor {
 
     private static final String FEATURE_NAME = "http-problem";
-    private static final String EXTENSION_MAIN_PACKAGE = "io.quarkiverse.resteasy.problem.";
+    private static final String EXTENSION_MAIN_PACKAGE = "io.quarkiverse.httpproblem.";
 
     /**
      * Don't change this to constants from Capability for the sake of older Quarkus versions
      */
-    private static final List<String> RESTEASY_JSON_CAPABILITIES = Arrays.asList(
-            "io.quarkus.resteasy.json",
-            "io.quarkus.resteasy-json",
+    private static final List<String> REST_JSON_CAPABILITIES = Arrays.asList(
             "io.quarkus.jsonb",
             "io.quarkus.jackson");
 
     private static List<ExceptionMapperDefinition> neededExceptionMappers() {
         Stream<ExceptionMapperDefinition> allMappers = Stream.of(
                 mapper(EXTENSION_MAIN_PACKAGE + "HttpProblemMapper")
-                        .thatHandles("io.quarkiverse.resteasy.problem.HttpProblem"),
+                        .thatHandles(EXTENSION_MAIN_PACKAGE + "HttpProblem"),
 
                 mapper(EXTENSION_MAIN_PACKAGE + "jaxrs.WebApplicationExceptionMapper")
                         .thatHandles("jakarta.ws.rs.WebApplicationException"),
@@ -59,13 +56,9 @@ public class ProblemProcessor {
                         .thatHandles("jakarta.ws.rs.ForbiddenException"),
                 mapper(EXTENSION_MAIN_PACKAGE + "jaxrs.NotFoundExceptionMapper")
                         .thatHandles("jakarta.ws.rs.NotFoundException"),
-                mapper(EXTENSION_MAIN_PACKAGE + "jsonb.RestEasyClassicJsonbExceptionMapper")
-                        .thatHandles("jakarta.ws.rs.ProcessingException"),
 
-                mapper(EXTENSION_MAIN_PACKAGE + "security.UnauthorizedExceptionMapper")
-                        .thatHandles("io.quarkus.security.UnauthorizedException").onlyIf(new RestEasyClassicDetector()),
                 mapper(EXTENSION_MAIN_PACKAGE + "security.AuthenticationFailedExceptionMapper")
-                        .thatHandles("io.quarkus.security.AuthenticationFailedException").onlyIf(new RestEasyClassicDetector()),
+                        .thatHandles("io.quarkus.security.AuthenticationFailedException"),
                 mapper(EXTENSION_MAIN_PACKAGE + "security.AuthenticationRedirectExceptionMapper")
                         .thatHandles("io.quarkus.security.AuthenticationRedirectException"),
                 mapper(EXTENSION_MAIN_PACKAGE + "security.AuthenticationCompletionExceptionMapper")
@@ -108,27 +101,21 @@ public class ProblemProcessor {
 
     @BuildStep
     FeatureBuildItem createFeature(Capabilities capabilities) {
-        if (RESTEASY_JSON_CAPABILITIES.stream().noneMatch(capabilities::isPresent)) {
-            logger().error("`quarkus-http-problem` extension is useless without RESTeasy Json Provider. Please add "
-                    + "`quarkus-rest-jackson` or `quarkus-rest-jsonb` (or classic equivalent) extension to your pom.xml.");
+        if (REST_JSON_CAPABILITIES.stream().noneMatch(capabilities::isPresent)) {
+            logger().error("`quarkus-http-problem` extension is useless without json provider. Please add "
+                    + "`quarkus-rest-jackson` or `quarkus-rest-jsonb` extension to your project.");
         }
         return new FeatureBuildItem(FEATURE_NAME);
     }
 
-    @BuildStep(onlyIf = RestEasyClassicDetector.class)
-    void registerMappersForClassic(BuildProducer<ResteasyJaxrsProviderBuildItem> providers) {
-        neededExceptionMappers().forEach(mapper -> providers.produce(
-                new ResteasyJaxrsProviderBuildItem(mapper.mapperClassName)));
-    }
-
-    @BuildStep(onlyIf = RestEasyReactiveDetector.class)
-    void registerMappersForReactive(BuildProducer<ExceptionMapperBuildItem> providers) {
+    @BuildStep
+    void registerMappers(BuildProducer<ExceptionMapperBuildItem> providers) {
         neededExceptionMappers().forEach(mapper -> providers.produce(
                 new ExceptionMapperBuildItem(mapper.mapperClassName,
                         mapper.exceptionClassName, Priorities.AUTHENTICATION - 1, true)));
     }
 
-    @BuildStep(onlyIf = RestEasyReactiveDetector.class)
+    @BuildStep
     void registerCustomExceptionMappers(BuildProducer<CustomExceptionMapperBuildItem> customExceptionMapper) {
         customExceptionMapper.produce(
                 new CustomExceptionMapperBuildItem(EXTENSION_MAIN_PACKAGE + "security.UnauthorizedExceptionReactiveMapper"));
@@ -196,15 +183,18 @@ public class ProblemProcessor {
         recorder.registerCustomPostProcessors();
     }
 
+    @Record(RUNTIME_INIT)
+    @BuildStep
+    void configureConstraintViolationMapper(ProblemRecorder recorder, ProblemBuildConfig config) {
+        if (config.constraintViolation() != null) {
+            recorder.configureConstraintViolationMapper(config.constraintViolation().status(),
+                    config.constraintViolation().title());
+        }
+    }
+
     @BuildStep
     UnremovableBeanBuildItem markPostProcessorsUnremovable() {
         return UnremovableBeanBuildItem.beanTypes(ProblemPostProcessor.class);
-    }
-
-    @Record(RUNTIME_INIT)
-    @BuildStep
-    void applyRuntimeConfig(ProblemRecorder recorder) {
-        recorder.applyRuntimeConfig();
     }
 
     protected Logger logger() {

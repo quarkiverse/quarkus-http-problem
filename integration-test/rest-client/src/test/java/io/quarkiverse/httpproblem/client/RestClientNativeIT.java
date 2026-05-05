@@ -1,4 +1,4 @@
-package io.quarkiverse.resteasy.problem.client;
+package io.quarkiverse.httpproblem.client;
 
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 

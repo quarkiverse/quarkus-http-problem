@@ -1,4 +1,4 @@
-# Problem Details for HTTP APIs (RFC-7807) implementation for Quarkus / RESTeasy.
+# Problem Details for HTTP APIs (RFC-7807) implementation for Quarkus Rest.
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/quarkiverse/quarkus-http-problem/blob/main/LICENSE.txt)
 [![Documentation](https://img.shields.io/badge/docs-quarkus.io-0A6EBD)](https://quarkus.io/extensions/io.quarkiverse.http-problem/quarkus-http-problem/)
@@ -7,7 +7,7 @@
 [![Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/integration-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/integration-tests.yaml)
 [![Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/native-mode-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/native-mode-tests.yaml)
 
-[RFC7807 Problem](https://tools.ietf.org/html/rfc7807) extension for Quarkus RESTeasy/JaxRS applications. It maps Exceptions to `application/problem+json` HTTP responses. Inspired by [Zalando Problem library](https://github.com/zalando/problem), originally open sourced by [Tietoevry](https://github.com/evry), now part of Quarkiverse.
+[RFC7807 Problem](https://tools.ietf.org/html/rfc7807) extension for Quarkus Rest applications. It maps Exceptions to `application/problem+json` HTTP responses. Inspired by [Zalando Problem library](https://github.com/zalando/problem), originally open sourced by [Tietoevry](https://github.com/evry), now part of Quarkiverse.
 
 This extension supports:
 - `quarkus-rest-jackson` and `quarkus-rest-jsonb`

@@ -1,6 +1,6 @@
-package io.quarkiverse.resteasy.problem.client;
+package io.quarkiverse.httpproblem.client;
 
-import io.quarkiverse.resteasy.problem.HttpProblem;
+import io.quarkiverse.httpproblem.HttpProblem;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

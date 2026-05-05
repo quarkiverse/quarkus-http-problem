@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        maven_profiles: ["jackson-classic", "jsonb-classic", "jackson-reactive", "jsonb-reactive"]
+        maven_profiles: ["jackson", "jsonb"]
 
     steps:
       - uses: actions/checkout@v6

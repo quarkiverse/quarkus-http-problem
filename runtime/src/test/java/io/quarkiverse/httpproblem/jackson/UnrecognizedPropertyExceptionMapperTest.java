@@ -1,6 +1,5 @@
 package io.quarkiverse.httpproblem.jackson;
 
-import static io.quarkiverse.httpproblem.ExceptionMapperAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -18,12 +17,6 @@ import io.quarkiverse.httpproblem.HttpProblem;
 class UnrecognizedPropertyExceptionMapperTest {
 
     UnrecognizedPropertyExceptionMapper mapper = new UnrecognizedPropertyExceptionMapper();
-
-    @Test
-    void shouldHaveHigherPriorityThanBuiltInMapper() {
-        assertThat(UnrecognizedPropertyExceptionMapper.class)
-                .hasPrecedenceOver(org.jboss.resteasy.plugins.providers.jackson.JsonProcessingExceptionMapper.class);
-    }
 
     @Test
     void shouldProduceHttp400() {

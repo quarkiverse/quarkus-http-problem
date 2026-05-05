@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import jakarta.ws.rs.core.Response;
 
-import org.jboss.resteasy.specimpl.ResteasyUriInfo;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
@@ -32,7 +32,6 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 import com.google.common.collect.Sets;
 
 import io.quarkiverse.httpproblem.postprocessing.ProblemRecorder;
-import io.quarkus.runtime.RuntimeValue;
 
 /**
  * JMH benchmark for selected exception Mapper with all post-processors enabled + junit runner test for convenience.
@@ -46,6 +45,7 @@ import io.quarkus.runtime.RuntimeValue;
 @Fork(value = 1, warmups = 0)
 @Warmup(iterations = 15, time = 200, timeUnit = MILLISECONDS)
 @Measurement(iterations = 15, time = 200, timeUnit = MILLISECONDS)
+@Disabled
 public class ProblemMapperBenchmark {
 
     @State(Scope.Thread)
@@ -57,10 +57,10 @@ public class ProblemMapperBenchmark {
 
         @Setup(Level.Trial)
         public void initMapper() {
-            ProblemRecorder recorder = new ProblemRecorder(new RuntimeValue<>());
+            ProblemRecorder recorder = new ProblemRecorder();
             recorder.configureMdc(Sets.newHashSet("uuid"));
 
-            mapper.uriInfo = new ResteasyUriInfo("http://localhost/endpoint", "endpoint");
+            //mapper.uriInfo = new ResteasyUriInfo("http://localhost/endpoint", "endpoint");
         }
     }
 

@@ -3,12 +3,9 @@ package io.quarkiverse.httpproblem.postprocessing;
 import java.util.Set;
 
 import jakarta.enterprise.inject.spi.CDI;
-import jakarta.inject.Inject;
 
 import io.quarkiverse.httpproblem.ExceptionMapperBase;
-import io.quarkiverse.httpproblem.ProblemRuntimeConfig;
 import io.quarkiverse.httpproblem.validation.ConstraintViolationExceptionMapper;
-import io.quarkus.runtime.RuntimeValue;
 import io.quarkus.runtime.annotations.Recorder;
 
 /**
@@ -16,13 +13,6 @@ import io.quarkus.runtime.annotations.Recorder;
  */
 @Recorder
 public class ProblemRecorder {
-
-    private final RuntimeValue<ProblemRuntimeConfig> runtimeConfig;
-
-    @Inject
-    public ProblemRecorder(RuntimeValue<ProblemRuntimeConfig> runtimeConfig) {
-        this.runtimeConfig = runtimeConfig;
-    }
 
     public void reset() {
         ExceptionMapperBase.postProcessorsRegistry.reset();
@@ -39,7 +29,7 @@ public class ProblemRecorder {
                 .forEach(ExceptionMapperBase.postProcessorsRegistry::register);
     }
 
-    public void applyRuntimeConfig() {
-        ConstraintViolationExceptionMapper.configure(runtimeConfig.getValue().constraintViolation());
+    public void configureConstraintViolationMapper(int status, String title) {
+        ConstraintViolationExceptionMapper.configure(status, title);
     }
 }

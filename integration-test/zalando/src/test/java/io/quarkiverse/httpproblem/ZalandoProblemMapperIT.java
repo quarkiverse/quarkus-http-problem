@@ -1,4 +1,4 @@
-package io.quarkiverse.resteasy.problem;
+package io.quarkiverse.httpproblem;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;

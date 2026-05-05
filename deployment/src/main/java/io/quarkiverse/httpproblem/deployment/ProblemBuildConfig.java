@@ -2,14 +2,13 @@ package io.quarkiverse.httpproblem.deployment;
 
 import java.util.Set;
 
-import io.quarkiverse.httpproblem.ProblemRuntimeConfig;
 import io.quarkus.runtime.annotations.ConfigPhase;
 import io.quarkus.runtime.annotations.ConfigRoot;
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
 import io.smallrye.config.WithName;
 
-@ConfigMapping(prefix = "quarkus.resteasy.problem")
+@ConfigMapping(prefix = "quarkus.http-problem")
 @ConfigRoot(phase = ConfigPhase.BUILD_TIME)
 public interface ProblemBuildConfig {
 
@@ -44,11 +43,27 @@ public interface ProblemBuildConfig {
 
     /**
      * Config for OpenApi schema of HttpValidationProblem
-     *
-     * @implNote This duplicates ProblemRuntimeConfig as runtime config cannot be used in build-time, and constraint
-     *           violation configuration is needed to enhance OpenApi documentation. The best would be to move everything to
-     *           build-time configuration, but that would be a breaking change. To be removed in 4.0.0.
      */
     @WithName("constraint-violation")
-    ProblemRuntimeConfig.ConstraintViolationMapperConfig constraintViolation();
+    ConstraintViolationMapperConfig constraintViolation();
+
+    interface ConstraintViolationMapperConfig {
+        /**
+         * Response status code when ConstraintViolationException is thrown.
+         */
+        @WithDefault("400")
+        int status();
+
+        /**
+         * Response title when ConstraintViolationException is thrown.
+         */
+        @WithDefault("Bad Request")
+        String title();
+
+        /**
+         * OpenApi description for ConstraintViolationExceptions.
+         */
+        @WithDefault("Bad request: server would not process the request due to something the server considered to be a client error")
+        String description();
+    }
 }

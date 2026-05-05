@@ -1,4 +1,4 @@
-package io.quarkiverse.resteasy.problem.client;
+package io.quarkiverse.httpproblem.client;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

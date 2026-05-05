@@ -4,7 +4,6 @@ import static io.quarkiverse.httpproblem.HttpProblem.MEDIA_TYPE;
 import static jakarta.ws.rs.core.HttpHeaders.CONTENT_LENGTH;
 import static jakarta.ws.rs.core.HttpHeaders.RETRY_AFTER;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 import java.net.URI;
 
@@ -13,8 +12,6 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import org.jboss.resteasy.core.Headers;
-import org.jboss.resteasy.core.ServerResponse;
 import org.junit.jupiter.api.Test;
 
 import io.quarkiverse.httpproblem.HttpProblem;
@@ -91,13 +88,4 @@ class WebApplicationExceptionMapperTest {
         assertThat(response.getHeaderString(CONTENT_LENGTH)).isNull();
     }
 
-    @Test
-    void shouldHandleNullHeaders() {
-        Headers<Object> nullHeaders = null;
-        WebApplicationException exception = new WebApplicationException(
-                new ServerResponse(new Object(), 404, nullHeaders));
-
-        assertThatCode(() -> mapper.toResponse(exception))
-                .doesNotThrowAnyException();
-    }
 }

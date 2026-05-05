@@ -13,23 +13,10 @@
 
     <profiles>
         <profile>
-            <id>jackson-classic</id>
+            <id>jackson</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-resteasy-jackson</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-resteasy-client-jackson</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>jackson-reactive</id>
             <dependencies>
                 <dependency>
                     <groupId>io.quarkus</groupId>
@@ -43,20 +30,7 @@
         </profile>
 
         <profile>
-            <id>jsonb-classic</id>
-            <dependencies>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-resteasy-jsonb</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-resteasy-client-jsonb</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>jsonb-reactive</id>
+            <id>jsonb</id>
             <dependencies>
                 <dependency>
                     <groupId>io.quarkus</groupId>

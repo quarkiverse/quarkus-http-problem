@@ -1,4 +1,4 @@
-package io.quarkiverse.resteasy.problem.client;
+package io.quarkiverse.httpproblem.client;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
@@ -18,16 +18,13 @@ class RestClientIT {
 
     @Test
     void shouldCallItselfViaRestApiWithoutClientExceptionMapper() {
-        String resteasyClassicDetail = "HTTP 409 Conflict";
-        String resteasyReactiveDetail = "Received: 'Conflict, status code 409' when invoking REST Client method: 'io.quarkiverse.resteasy.problem.client.SelfRestClient#doThrow'";
-
         given()
                 .accept(ContentType.JSON)
                 .get("/throw-via-rest-client")
                 .then()
                 .statusCode(409)
                 .body("title", equalTo("Conflict"))
-                .body("detail", either(equalTo(resteasyClassicDetail)).or(equalTo(resteasyReactiveDetail)))
+                .body("detail", equalTo("Received: 'Conflict, status code 409' when invoking REST Client method: 'io.quarkiverse.httpproblem.client.SelfRestClient#doThrow'"))
                 .body("instance", equalTo("/throw-via-rest-client"));
     }
 

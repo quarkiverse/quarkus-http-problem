@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        json-provider: [ "rest-jsonb", "rest-jackson" ]
+        json-provider: [ "rest-jackson", "rest-jsonb" ]
 
     steps:
       - uses: actions/checkout@v6
@@ -34,7 +34,7 @@ jobs:
           echo "QUARKUS_VERSION = $QUARKUS_VERSION"
 
           mvn io.quarkus:quarkus-maven-plugin:$QUARKUS_VERSION:create \
-            -Dextensions="rest,${{ matrix.json-provider }}" \
+            -Dextensions="${{ matrix.json-provider }}" \
             -DprojectGroupId=problem \
             -DprojectArtifactId=quarkus-http-problem-playground \
             -DclassName="problem.HelloResource" \

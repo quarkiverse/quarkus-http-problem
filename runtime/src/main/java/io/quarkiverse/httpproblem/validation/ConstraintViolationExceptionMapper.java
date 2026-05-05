@@ -26,7 +26,6 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 import io.quarkiverse.httpproblem.ExceptionMapperBase;
-import io.quarkiverse.httpproblem.ProblemRuntimeConfig.ConstraintViolationMapperConfig;
 
 /**
  * Exception Mapper for ConstraintViolationException from Bean Validation API. Hibernate Validator, among others throw
@@ -55,18 +54,20 @@ public final class ConstraintViolationExceptionMapper extends ExceptionMapperBas
             .flatMap(Optional::stream)
             .toList();
 
-    private static ConstraintViolationMapperConfig config = ConstraintViolationMapperConfig.defaults();
+    private static int problemStatus = 400;
+    private static String problemTitle = "Bad Request";
 
     @Context
     ResourceInfo resourceInfo;
 
-    public static void configure(ConstraintViolationMapperConfig config) {
-        ConstraintViolationExceptionMapper.config = config;
+    public static void configure(int status, String title) {
+        ConstraintViolationExceptionMapper.problemStatus = status;
+        ConstraintViolationExceptionMapper.problemTitle = title;
     }
 
     @Override
     protected HttpValidationProblem toProblem(ConstraintViolationException exception) {
-        return new HttpValidationProblem(config.status(), config.title(), toViolations(exception.getConstraintViolations()));
+        return new HttpValidationProblem(problemStatus, problemTitle, toViolations(exception.getConstraintViolations()));
     }
 
     private List<Violation> toViolations(Set<ConstraintViolation<?>> constraintViolations) {
