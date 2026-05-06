@@ -1,4 +1,4 @@
-§name: Native Mode Tests
+name: Native Mode Tests
 
 on:
   push:
@@ -34,4 +34,4 @@ jobs:
         run: ./mvnw install -Pquick
 
       - name: Native Tests
-        run: ./mvnw clean verify -P it,native,${{ matrix.maven_profiles }} -pl 'integration-test/core,integration-test/rest-client,integration-test/openapi,integration-test/zalando'
+        run: ./mvnw -f integration-test/pom.xml clean verify -P it,native,${{ matrix.maven_profiles }}

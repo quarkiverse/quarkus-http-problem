@@ -30,4 +30,4 @@ jobs:
         run: ./mvnw install -Pquick
 
       - name: Integration Tests - Core
-        run: ./mvnw clean verify -P it,${{ matrix.maven_profiles }} -pl 'integration-test/core,integration-test/rest-client,integration-test/openapi,integration-test/zalando'
+        run: ./mvnw -f integration-test/pom.xml clean verify -P it,${{ matrix.maven_profiles }}

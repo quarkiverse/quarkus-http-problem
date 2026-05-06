@@ -102,6 +102,45 @@
                 <module>rest-client</module>
             </modules>
         </profile>
+        <profile>
+            <id>jackson</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-rest-jackson</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>resteasy-jackson</id>
+            <dependencies>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-resteasy-jackson</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>jsonb</id>
+            <dependencies>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-rest-jsonb</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>resteasy-jsonb</id>
+            <dependencies>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-resteasy-jsonb</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
 
         <profile>
             <id>native</id>

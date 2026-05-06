@@ -21,10 +21,6 @@
             <dependencies>
                 <dependency>
                     <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-rest-jackson</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
                     <artifactId>quarkus-rest-client-jackson</artifactId>
                 </dependency>
             </dependencies>
@@ -32,10 +28,6 @@
         <profile>
             <id>resteasy-jackson</id>
             <dependencies>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-resteasy-jackson</artifactId>
-                </dependency>
                 <dependency>
                     <groupId>io.quarkus</groupId>
                     <artifactId>quarkus-resteasy-client-jackson</artifactId>
@@ -48,10 +40,6 @@
             <dependencies>
                 <dependency>
                     <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-rest-jsonb</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
                     <artifactId>quarkus-rest-client-jsonb</artifactId>
                 </dependency>
             </dependencies>
@@ -60,10 +48,6 @@
         <profile>
             <id>resteasy-jsonb</id>
             <dependencies>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-resteasy-jsonb</artifactId>
-                </dependency>
                 <dependency>
                     <groupId>io.quarkus</groupId>
                     <artifactId>quarkus-resteasy-client-jsonb</artifactId>
