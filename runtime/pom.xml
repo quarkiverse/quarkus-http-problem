@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-http-problem</artifactId>
-    <name>Quarkus - Http-Problem</name>
+    <name>Quarkus - HTTP-Problem</name>
     <description>Problem Details for HTTP APIs (RFC-7807) implementation for Quarkus / RESTeasy.</description>
 
     <dependencies>
