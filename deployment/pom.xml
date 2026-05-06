@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-http-problem-deployment</artifactId>
-    <name>Quarkus - Http-Problem - Deployment</name>
+    <name>Quarkus - HTTP-Problem - Deployment</name>
 
     <dependencies>
         <dependency>
@@ -27,7 +27,11 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-rest-deployment</artifactId>
+            <artifactId>quarkus-rest-spi-deployment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-common-spi</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>

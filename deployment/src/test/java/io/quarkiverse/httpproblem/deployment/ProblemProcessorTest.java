@@ -48,7 +48,7 @@ class ProblemProcessorTest {
         problemProcessor.createFeature(CAPABILITIES_WITHOUT_JSON);
 
         verify(logger).error("`quarkus-http-problem` extension is useless without json provider. "
-                + "Please add `quarkus-rest-jackson` or `quarkus-rest-jsonb` extension to your project.");
+                + "Please add `quarkus-rest-jackson` or `quarkus-rest-jsonb` (or classic `resteasy` equivalent) extension to your project.");
     }
 
 }

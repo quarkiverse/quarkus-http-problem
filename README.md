@@ -10,7 +10,8 @@
 [RFC7807 Problem](https://tools.ietf.org/html/rfc7807) extension for Quarkus Rest applications. It maps Exceptions to `application/problem+json` HTTP responses. Inspired by [Zalando Problem library](https://github.com/zalando/problem), originally open sourced by [Tietoevry](https://github.com/evry), now part of Quarkiverse.
 
 This extension supports:
-- `quarkus-rest-jackson` and `quarkus-rest-jsonb`
+- `quarkus-rest-jackson` and `quarkus-rest-jsonb` (reactive and blocking)
+- `quarkus-resteasy-jackson` and `quarkus-resteasy-jsonb` (classic blocking)
 - OpenAPI integration (via `quarkus-smallrye-openapi`)
 - JVM and native mode
 
@@ -46,7 +47,7 @@ Add this to your pom.xml:
 
 Once you run Quarkus: `./mvnw compile quarkus:dev`, and you will find `http-problem` in the logs:
 <pre>
-Installed features: [cdi, rest, <b><u>http-problem</u></b>]
+Installed features: [cdi, <b><u>http-problem</u></b>, rest-jackson, ...]
 </pre>
 
 Now you can throw `HttpProblem`s (using builder or a subclass), JaxRS exceptions (e.g `NotFoundException`) or `ThrowableProblem`s from Zalando library:

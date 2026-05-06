@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        maven_profiles: ["jackson", "jsonb"]
+        maven_profiles: ["jackson", "resteasy-jackson", "jsonb", "resteasy-jsonb"]
 
     steps:
       - uses: actions/checkout@v6
@@ -30,27 +30,4 @@ jobs:
         run: ./mvnw install -Pquick
 
       - name: Integration Tests - Core
-        run: ./mvnw clean verify -P it,${{ matrix.maven_profiles }} -pl 'integration-test/core,integration-test/rest-client'
-
-  test-extensions:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        it_modules: ["openapi", "zalando"] # rest-client runs along with core as it utilizes same maven profiles
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Set up JDK
-        uses: actions/setup-java@v5
-        with:
-          java-version: 17
-          distribution: temurin
-          cache: 'maven'
-
-      - name: Compile
-        run: ./mvnw install -Pquick
-
-      - name: Integration Tests - Non-core extensions
-        run: ./mvnw clean verify -P it -pl 'integration-test/${{ matrix.it_modules }}'
+        run: ./mvnw clean verify -P it,${{ matrix.maven_profiles }} -pl 'integration-test/core,integration-test/rest-client,integration-test/openapi,integration-test/zalando'

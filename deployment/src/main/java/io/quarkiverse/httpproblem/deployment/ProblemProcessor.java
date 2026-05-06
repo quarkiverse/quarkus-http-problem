@@ -29,6 +29,7 @@ import io.quarkus.deployment.builditem.LiveReloadBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.jsonb.spi.JsonbDeserializerBuildItem;
 import io.quarkus.jsonb.spi.JsonbSerializerBuildItem;
+import io.quarkus.resteasy.common.spi.ResteasyJaxrsProviderBuildItem;
 import io.quarkus.resteasy.reactive.spi.CustomExceptionMapperBuildItem;
 import io.quarkus.resteasy.reactive.spi.ExceptionMapperBuildItem;
 import io.quarkus.smallrye.openapi.deployment.spi.AddToOpenAPIDefinitionBuildItem;
@@ -43,7 +44,9 @@ public class ProblemProcessor {
      */
     private static final List<String> REST_JSON_CAPABILITIES = Arrays.asList(
             "io.quarkus.jsonb",
-            "io.quarkus.jackson");
+            "io.quarkus.jackson",
+            "io.quarkus.resteasy.json",
+            "io.quarkus.resteasy-json");
 
     private static List<ExceptionMapperDefinition> neededExceptionMappers() {
         Stream<ExceptionMapperDefinition> allMappers = Stream.of(
@@ -56,9 +59,13 @@ public class ProblemProcessor {
                         .thatHandles("jakarta.ws.rs.ForbiddenException"),
                 mapper(EXTENSION_MAIN_PACKAGE + "jaxrs.NotFoundExceptionMapper")
                         .thatHandles("jakarta.ws.rs.NotFoundException"),
+                mapper(EXTENSION_MAIN_PACKAGE + "jsonb.RestEasyClassicJsonbExceptionMapper")
+                        .thatHandles("jakarta.ws.rs.ProcessingException"),
 
+                mapper(EXTENSION_MAIN_PACKAGE + "security.UnauthorizedExceptionMapper")
+                        .thatHandles("io.quarkus.security.UnauthorizedException").onlyIf(new RestEasyClassicDetector()),
                 mapper(EXTENSION_MAIN_PACKAGE + "security.AuthenticationFailedExceptionMapper")
-                        .thatHandles("io.quarkus.security.AuthenticationFailedException"),
+                        .thatHandles("io.quarkus.security.AuthenticationFailedException").onlyIf(new RestEasyClassicDetector()),
                 mapper(EXTENSION_MAIN_PACKAGE + "security.AuthenticationRedirectExceptionMapper")
                         .thatHandles("io.quarkus.security.AuthenticationRedirectException"),
                 mapper(EXTENSION_MAIN_PACKAGE + "security.AuthenticationCompletionExceptionMapper")
@@ -105,13 +112,19 @@ public class ProblemProcessor {
     FeatureBuildItem createFeature(Capabilities capabilities) {
         if (REST_JSON_CAPABILITIES.stream().noneMatch(capabilities::isPresent)) {
             logger().error("`quarkus-http-problem` extension is useless without json provider. Please add "
-                    + "`quarkus-rest-jackson` or `quarkus-rest-jsonb` extension to your project.");
+                    + "`quarkus-rest-jackson` or `quarkus-rest-jsonb` (or classic `resteasy` equivalent) extension to your project.");
         }
         return new FeatureBuildItem(FEATURE_NAME);
     }
 
-    @BuildStep
-    void registerMappers(BuildProducer<ExceptionMapperBuildItem> providers) {
+    @BuildStep(onlyIf = RestEasyClassicDetector.class)
+    void registerMappersForClassic(BuildProducer<ResteasyJaxrsProviderBuildItem> providers) {
+        neededExceptionMappers().forEach(mapper -> providers.produce(
+                new ResteasyJaxrsProviderBuildItem(mapper.mapperClassName)));
+    }
+
+    @BuildStep(onlyIf = RestEasyReactiveDetector.class)
+    void registerMappersForReactive(BuildProducer<ExceptionMapperBuildItem> providers) {
         neededExceptionMappers().forEach(mapper -> providers.produce(
                 new ExceptionMapperBuildItem(mapper.mapperClassName,
                         mapper.exceptionClassName, Priorities.AUTHENTICATION - 1, true)));
@@ -120,7 +133,7 @@ public class ProblemProcessor {
     // Unauthorized/AuthenticationFailed handling in Quarkus REST is reactive: it needs Vert.x RoutingContext and
     // asynchronous challenge/response resolution (Uni<Response>). These classes therefore use
     // @ServerExceptionMapper methods (not JAX-RS ExceptionMapper<T> providers) and must be registered as custom mappers.
-    @BuildStep
+    @BuildStep(onlyIf = RestEasyReactiveDetector.class)
     void registerCustomExceptionMappers(BuildProducer<CustomExceptionMapperBuildItem> customExceptionMapper) {
         customExceptionMapper.produce(
                 new CustomExceptionMapperBuildItem(EXTENSION_MAIN_PACKAGE + "security.UnauthorizedExceptionReactiveMapper"));

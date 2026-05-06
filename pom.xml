@@ -12,7 +12,7 @@
     <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Quarkus - Http-Problem - Parent</name>
+    <name>Quarkus - HTTP-Problem - Parent</name>
     <description>Problem Details for HTTP APIs (RFC-7807) implementation for Quarkus REST - Parent POM.
     </description>
     <url>https://github.com/quarkiverse/quarkus-http-problem</url>

@@ -18,13 +18,16 @@ class RestClientIT {
 
     @Test
     void shouldCallItselfViaRestApiWithoutClientExceptionMapper() {
+        String resteasyClassicDetail = "HTTP 409 Conflict";
+        String resteasyReactiveDetail = "Received: 'Conflict, status code 409' when invoking REST Client method: 'io.quarkiverse.httpproblem.client.SelfRestClient#doThrow'";
+
         given()
                 .accept(ContentType.JSON)
                 .get("/throw-via-rest-client")
                 .then()
                 .statusCode(409)
                 .body("title", equalTo("Conflict"))
-                .body("detail", equalTo("Received: 'Conflict, status code 409' when invoking REST Client method: 'io.quarkiverse.httpproblem.client.SelfRestClient#doThrow'"))
+                .body("detail", either(equalTo(resteasyClassicDetail)).or(equalTo(resteasyReactiveDetail)))
                 .body("instance", equalTo("/throw-via-rest-client"));
     }
 

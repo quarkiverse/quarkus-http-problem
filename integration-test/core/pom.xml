@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-http-problem-integration-test-core</artifactId>
-    <name>Quarkus - Http-Problem - Integration Tests - Core</name>
+    <name>Quarkus - HTTP-Problem - Integration Tests - Core</name>
 
     <dependencies>
         <dependency>
@@ -35,6 +35,15 @@
                 </dependency>
             </dependencies>
         </profile>
+        <profile>
+            <id>resteasy-jackson</id>
+            <dependencies>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-resteasy-jackson</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
 
         <profile>
             <id>jsonb</id>
@@ -42,6 +51,16 @@
                 <dependency>
                     <groupId>io.quarkus</groupId>
                     <artifactId>quarkus-rest-jsonb</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>resteasy-jsonb</id>
+            <dependencies>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-resteasy-jsonb</artifactId>
                 </dependency>
             </dependencies>
         </profile>

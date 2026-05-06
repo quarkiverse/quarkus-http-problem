@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-http-problem-integration-test</artifactId>
-    <name>Quarkus - Http-Problem - Integration Tests</name>
+    <name>Quarkus - HTTP-Problem - Integration Tests</name>
     <packaging>pom</packaging>
 
     <dependencies>
