@@ -1,4 +1,4 @@
-# Problem Details for HTTP APIs (RFC-7807) implementation for Quarkus Rest.
+# Problem Details for HTTP APIs (RFC-7807) implementation for Quarkus REST / RESTEasy.
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/quarkiverse/quarkus-http-problem/blob/main/LICENSE.txt)
 [![Documentation](https://img.shields.io/badge/docs-quarkus.io-0A6EBD)](https://quarkus.io/extensions/io.quarkiverse.httpproblem/quarkus-http-problem/)
