@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        json-provider: [ "rest-jackson", "rest-jsonb" ]
+        json-provider: [ "rest-jackson", "rest-jsonb", "resteasy-jackson", "resteasy-jsonb"]
 
     steps:
       - uses: actions/checkout@v6
