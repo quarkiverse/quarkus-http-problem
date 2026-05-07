@@ -163,7 +163,7 @@ public class ProblemProcessor {
      */
     @BuildStep(onlyIf = OpenApiDetector.class)
     void indexOpenApiClasses(BuildProducer<IndexDependencyBuildItem> indexDependency) {
-        indexDependency.produce(new IndexDependencyBuildItem("io.quarkiverse.http-problem", "quarkus-http-problem"));
+        indexDependency.produce(new IndexDependencyBuildItem("io.quarkiverse.httpproblem", "quarkus-http-problem"));
     }
 
     @BuildStep(onlyIf = OpenApiDetector.class)

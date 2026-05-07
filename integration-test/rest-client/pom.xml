@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.quarkiverse.http-problem</groupId>
+        <groupId>io.quarkiverse.httpproblem</groupId>
         <artifactId>quarkus-http-problem-integration-test</artifactId>
         <version>999-SNAPSHOT</version>
     </parent>

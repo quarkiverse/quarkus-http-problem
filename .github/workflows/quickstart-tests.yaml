@@ -43,7 +43,7 @@ jobs:
           EXTENSION_VERSION=$(mvn -f ../pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
           echo "EXTENSION_VERSION = $EXTENSION_VERSION"
           cd quarkus-http-problem-playground
-          ./mvnw quarkus:add-extension -Dextensions="io.quarkiverse.http-problem:quarkus-http-problem:$EXTENSION_VERSION"
+          ./mvnw quarkus:add-extension -Dextensions="io.quarkiverse.httpproblem:quarkus-http-problem:$EXTENSION_VERSION"
 
       - name: Run tests
         working-directory: ./quickstart/quarkus-http-problem-playground

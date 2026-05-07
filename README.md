@@ -1,7 +1,7 @@
 # Problem Details for HTTP APIs (RFC-7807) implementation for Quarkus Rest.
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/quarkiverse/quarkus-http-problem/blob/main/LICENSE.txt)
-[![Documentation](https://img.shields.io/badge/docs-quarkus.io-0A6EBD)](https://quarkus.io/extensions/io.quarkiverse.http-problem/quarkus-http-problem/)
+[![Documentation](https://img.shields.io/badge/docs-quarkus.io-0A6EBD)](https://quarkus.io/extensions/io.quarkiverse.httpproblem/quarkus-http-problem/)
 
 [![Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/unit-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/unit-tests.yaml)
 [![Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/integration-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/integration-tests.yaml)
@@ -40,7 +40,7 @@ so-called "HTTP APIs" are usually not.
 Add this to your pom.xml:
 ```xml
 <dependency>
-    <groupId>io.quarkiverse.http-problem</groupId>
+    <groupId>io.quarkiverse.httpproblem</groupId>
     <artifactId>quarkus-http-problem</artifactId>
 </dependency>
 ```
