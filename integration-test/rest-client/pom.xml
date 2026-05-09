@@ -3,68 +3,54 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.quarkiverse.resteasy-problem</groupId>
-        <artifactId>quarkus-resteasy-problem-integration-test</artifactId>
+        <groupId>io.quarkiverse.httpproblem</groupId>
+        <artifactId>quarkus-http-problem-integration-test</artifactId>
         <version>999-SNAPSHOT</version>
     </parent>
 
-    <artifactId>quarkus-resteasy-problem-integration-test-restclient</artifactId>
-    <name>Quarkus - RESTeasy - Problem - Integration Tests - Rest Client</name>
+    <artifactId>quarkus-http-problem-integration-test-restclient</artifactId>
+    <name>Quarkus - HTTP-Problem - Integration Tests - Rest Client</name>
 
     <profiles>
+
         <profile>
-            <id>jackson-classic</id>
+            <id>jackson</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <dependencies>
                 <dependency>
                     <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-resteasy-jackson</artifactId>
+                    <artifactId>quarkus-rest-client-jackson</artifactId>
                 </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>resteasy-jackson</id>
+            <dependencies>
                 <dependency>
                     <groupId>io.quarkus</groupId>
                     <artifactId>quarkus-resteasy-client-jackson</artifactId>
                 </dependency>
             </dependencies>
         </profile>
+
         <profile>
-            <id>jackson-reactive</id>
+            <id>jsonb</id>
             <dependencies>
                 <dependency>
                     <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-rest-jackson</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-rest-client-jackson</artifactId>
+                    <artifactId>quarkus-rest-client-jsonb</artifactId>
                 </dependency>
             </dependencies>
         </profile>
 
         <profile>
-            <id>jsonb-classic</id>
+            <id>resteasy-jsonb</id>
             <dependencies>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-resteasy-jsonb</artifactId>
-                </dependency>
                 <dependency>
                     <groupId>io.quarkus</groupId>
                     <artifactId>quarkus-resteasy-client-jsonb</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>jsonb-reactive</id>
-            <dependencies>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-rest-jsonb</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-rest-client-jsonb</artifactId>
                 </dependency>
             </dependencies>
         </profile>

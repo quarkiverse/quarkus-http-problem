@@ -3,27 +3,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.quarkiverse.resteasy-problem</groupId>
-        <artifactId>quarkus-resteasy-problem-integration-test</artifactId>
+        <groupId>io.quarkiverse.httpproblem</groupId>
+        <artifactId>quarkus-http-problem-integration-test</artifactId>
         <version>999-SNAPSHOT</version>
     </parent>
 
-    <artifactId>quarkus-resteasy-problem-integration-test-openapi</artifactId>
-    <name>Quarkus - RESTeasy - Problem - Integration Tests - OpenAPI</name>
+    <artifactId>quarkus-http-problem-integration-test-openapi</artifactId>
+    <name>Quarkus - HTTP-Problem - Integration Tests - OpenAPI</name>
 
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-openapi</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-rest-jackson</artifactId>
-        </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
     </dependencies>
+
 </project>

@@ -38,7 +38,6 @@ Jackson profile is active by default when you use IntelliJ test runner.
 
 Command line:\
 `./mvnw verify` - jackson profile with RESTeasy classic (blocking) enabled by default\ 
-`./mvnw verify -pl integration-test -Pjsonb-classic`\
-`./mvnw verify -pl integration-test -Pjsonb-reactive`\
-`./mvnw verify -pl integration-test -Pjackson-classic,quarkus-1.4` - checking backward compatibility with older versions of Quarkus\
-`./mvnw clean verify -Pnative,jackson-classic -pl integration-test` - running tests in native mode
+`./mvnw verify -pl integration-test -Pjackson`\
+`./mvnw verify -pl integration-test -Pjsonb`\
+`./mvnw clean verify -Pnative,jackson -pl integration-test` - running tests in native mode

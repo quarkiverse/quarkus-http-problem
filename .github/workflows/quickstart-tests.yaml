@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        json-provider: [ "resteasy-jsonb", "resteasy-jackson" ]
+        json-provider: [ "rest-jackson", "rest-jsonb", "resteasy-jackson", "resteasy-jsonb"]
 
     steps:
       - uses: actions/checkout@v6
@@ -34,18 +34,18 @@ jobs:
           echo "QUARKUS_VERSION = $QUARKUS_VERSION"
 
           mvn io.quarkus:quarkus-maven-plugin:$QUARKUS_VERSION:create \
-            -Dextensions="resteasy,${{ matrix.json-provider }}" \
+            -Dextensions="${{ matrix.json-provider }}" \
             -DprojectGroupId=problem \
-            -DprojectArtifactId=quarkus-resteasy-problem-playground \
+            -DprojectArtifactId=quarkus-http-problem-playground \
             -DclassName="problem.HelloResource" \
             -Dpath="/hello"
 
           EXTENSION_VERSION=$(mvn -f ../pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
           echo "EXTENSION_VERSION = $EXTENSION_VERSION"
-          cd quarkus-resteasy-problem-playground
-          ./mvnw quarkus:add-extension -Dextensions="io.quarkiverse.resteasy-problem:quarkus-resteasy-problem:$EXTENSION_VERSION"
+          cd quarkus-http-problem-playground
+          ./mvnw quarkus:add-extension -Dextensions="io.quarkiverse.httpproblem:quarkus-http-problem:$EXTENSION_VERSION"
 
       - name: Run tests
-        working-directory: ./quickstart/quarkus-resteasy-problem-playground
+        working-directory: ./quickstart/quarkus-http-problem-playground
         run: |
           ./mvnw --no-transfer-progress test

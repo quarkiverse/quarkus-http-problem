@@ -1,18 +1,17 @@
-# Problem Details for HTTP APIs (RFC-7807) implementation for Quarkus / RESTeasy.
+# Problem Details for HTTP APIs (RFC-7807) implementation for Quarkus REST / RESTEasy.
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/quarkiverse/quarkus-resteasy-problem/blob/main/LICENSE.txt)
-[![Documentation](https://img.shields.io/badge/docs-quarkus.io-0A6EBD)](https://quarkus.io/extensions/io.quarkiverse.resteasy-problem/quarkus-resteasy-problem/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/quarkiverse/quarkus-http-problem/blob/main/LICENSE.txt)
+[![Documentation](https://img.shields.io/badge/docs-quarkus.io-0A6EBD)](https://quarkus.io/extensions/io.quarkiverse.httpproblem/quarkus-http-problem/)
 
-[![Build status](https://github.com/quarkiverse/quarkus-resteasy-problem/actions/workflows/unit-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-resteasy-problem/actions/workflows/unit-tests.yaml)
-[![Build status](https://github.com/quarkiverse/quarkus-resteasy-problem/actions/workflows/integration-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-resteasy-problem/actions/workflows/integration-tests.yaml)
-[![Build status](https://github.com/quarkiverse/quarkus-resteasy-problem/actions/workflows/native-mode-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-resteasy-problem/actions/workflows/native-mode-tests.yaml)
+[![Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/unit-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/unit-tests.yaml)
+[![Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/integration-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/integration-tests.yaml)
+[![Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/native-mode-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/native-mode-tests.yaml)
 
-[RFC7807 Problem](https://tools.ietf.org/html/rfc7807) extension for Quarkus RESTeasy/JaxRS applications. It maps Exceptions to `application/problem+json` HTTP responses. Inspired by [Zalando Problem library](https://github.com/zalando/problem), originally open sourced by [Tietoevry](https://github.com/evry), now part of Quarkiverse.
+[RFC7807 Problem](https://tools.ietf.org/html/rfc7807) extension for Quarkus Rest applications. It maps Exceptions to `application/problem+json` HTTP responses. Inspired by [Zalando Problem library](https://github.com/zalando/problem), originally open sourced by [Tietoevry](https://github.com/evry), now part of Quarkiverse.
 
 This extension supports:
-- Quarkus 1, 2 and 3
-- `quarkus-rest-jackson` and `quarkus-rest-jsonb`
-- `quarkus-resteasy-jackson` and `quarkus-resteasy-jsonb`
+- `quarkus-rest-jackson` and `quarkus-rest-jsonb` (reactive and blocking)
+- `quarkus-resteasy-jackson` and `quarkus-resteasy-jsonb` (classic blocking)
 - OpenAPI integration (via `quarkus-smallrye-openapi`)
 - JVM and native mode
 
@@ -25,7 +24,7 @@ This extension supports:
 
 - __time-saving__ - in most cases you will not have to implement your own JaxRS `ExceptionMapper`s anymore, which makes your app smaller, and less error-prone. 
 
-See [Built-in Exception Mappers Wiki](https://github.com/quarkiverse/quarkus-resteasy-problem/wiki#built-in-exception-mappers) for more details.
+See [Built-in Exception Mappers Wiki](https://github.com/quarkiverse/quarkus-http-problem/wiki#built-in-exception-mappers) for more details.
 
 From [RFC7807](https://tools.ietf.org/html/rfc7807):
 ```
@@ -41,97 +40,14 @@ so-called "HTTP APIs" are usually not.
 Add this to your pom.xml:
 ```xml
 <dependency>
-    <groupId>io.quarkiverse.resteasy-problem</groupId>
-    <artifactId>quarkus-resteasy-problem</artifactId>
-    <version>3.32.0</version>
+    <groupId>io.quarkiverse.httpproblem</groupId>
+    <artifactId>quarkus-http-problem</artifactId>
 </dependency>
 ```
 
-<details>
-    <summary>Quarkus up to 3.13 / Java 17+</summary>
-
-### Quarkus 3.X
- Quarkus             | Java | quarkus-resteasy-problem
----------------------|------|-------------------------
-\>= 3.32            | 17+  | 3.32.0
-\>= 3.9 | 17+  | 3.21.1
-\>= 3.7  | 17+  | 3.7.0
-< 3.7             | 11+  | 3.1.0
-
-Make sure proper version of JDK (look for the table above), then run:
-```shell
-mvn io.quarkus:quarkus-maven-plugin:${quarkus.version}:create \
-    -DprojectGroupId=problem \
-    -DprojectArtifactId=quarkus-resteasy-problem-playground \
-    -DclassName="problem.HelloResource" \
-    -Dpath="/hello" \
-    -Dextensions="resteasy,resteasy-jackson"
-cd quarkus-resteasy-problem-playground
-./mvnw quarkus:add-extension -Dextensions="com.tietoevry.quarkus:quarkus-resteasy-problem:3.9.0"
-```
-Or add the following dependency to `pom.xml` in existing project:
-```xml
-<dependency>
-    <groupId>com.tietoevry.quarkus</groupId>
-    <artifactId>quarkus-resteasy-problem</artifactId>
-    <version>3.9.0</version>
-</dependency>
-```
-</details>
-
-<details>
-    <summary>Quarkus 2.X / Java 11+</summary>
-
-  Make sure JDK 11 is in your PATH, then run:
-  ```shell 
-  mvn io.quarkus:quarkus-maven-plugin:2.16.10.Final:create \
-      -DprojectGroupId=problem \
-      -DprojectArtifactId=quarkus-resteasy-problem-playground \
-      -DclassName="problem.HelloResource" \
-      -Dpath="/hello" \
-      -Dextensions="resteasy,resteasy-jackson"
-  cd quarkus-resteasy-problem-playground
-  ./mvnw quarkus:add-extension -Dextensions="com.tietoevry.quarkus:quarkus-resteasy-problem:2.2.0
-  ```
-  Or add the following dependency to `pom.xml` in existing project:
-  ```xml
-  <dependency>
-      <groupId>com.tietoevry.quarkus</groupId>
-      <artifactId>quarkus-resteasy-problem</artifactId>
-      <version>2.2.0</version>
-  </dependency>
-  ```
-</details>
-
-<details>
-    <summary>Quarkus 1.X / Java 1.8+</summary>
-    
-  Create a new Quarkus project with the following command:
-  ```shell 
-  mvn io.quarkus:quarkus-maven-plugin:1.13.7.Final:create \
-      -DprojectGroupId=problem \
-      -DprojectArtifactId=quarkus-resteasy-problem-playground \
-      -DclassName="problem.HelloResource" \
-      -Dpath="/hello" \
-      -Dextensions="resteasy,resteasy-jackson,com.tietoevry.quarkus:quarkus-resteasy-problem:1.0.0"
-  cd quarkus-resteasy-problem-playground
-  ```
-  Or add the following dependency to `pom.xml` in existing project:
-  ```xml
-  <dependency>
-    <groupId>com.tietoevry.quarkus</groupId>
-    <artifactId>quarkus-resteasy-problem</artifactId>
-    <version>1.0.0</version>
-  </dependency>
-  ```
-</details>
-
-**Hint:** you can also use `resteasy-jsonb` or reactive equivalents: `rest-jackson` / `rest-jsonb` instead of `resteasy-jackson`
-
-
-Once you run Quarkus: `./mvnw compile quarkus:dev`, and you will find `resteasy-problem` in the logs:
+Once you run Quarkus: `./mvnw compile quarkus:dev`, and you will find `http-problem` in the logs:
 <pre>
-Installed features: [cdi, resteasy, resteasy-jackson, <b><u>resteasy-problem</u></b>]
+Installed features: [cdi, <b><u>http-problem</u></b>, rest-jackson, ...]
 </pre>
 
 Now you can throw `HttpProblem`s (using builder or a subclass), JaxRS exceptions (e.g `NotFoundException`) or `ThrowableProblem`s from Zalando library:
@@ -139,7 +55,7 @@ Now you can throw `HttpProblem`s (using builder or a subclass), JaxRS exceptions
 ```java
 package problem;
 
-import io.quarkiverse.resteasy.problem.HttpProblem;
+import io.quarkiverse.httpproblem.HttpProblem;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
@@ -189,7 +105,7 @@ Exceptions transformed into http 500s (aka server errors) will be logged as `ERR
 
 More on throwing problems: [zalando/problem usage](https://github.com/zalando/problem#usage)
 
-## RestClients (available since <a href="https://github.com/quarkiverse/quarkus-resteasy-problem/releases/tag/3.20.0">v3.20.0</a>)
+## RestClients (available since <a href="https://github.com/quarkiverse/quarkus-http-problem/releases/tag/3.20.0">v3.20.0</a>)
 If you use RestClients and your upstream services return `application/problem+json` responses, you can register `ThrowingHttpProblemClientExceptionMapper` for your client to get automatic deserialization and rethrowing `HttpProblem` instead of `ClientWebApplicationException` 
 
 ```java
@@ -202,7 +118,7 @@ public interface MyRestClient {
 }
 ```
 
-## OpenAPI integration (available since <a href="https://github.com/quarkiverse/quarkus-resteasy-problem/releases/tag/3.20.0">v3.20.0</a>)
+## OpenAPI integration (available since <a href="https://github.com/quarkiverse/quarkus-http-problem/releases/tag/3.20.0">v3.20.0</a>)
 When `quarkus-smallrye-openapi` is in the classpath, this extension provides a bunch of out-of-the-box features :
 
 - complete OpenApi schema definitions for `HttpProblem` and `HttpValidationProblem` that can be used in annotations (e.g. `@Schema(implementation = HttpProblem.class)`)
@@ -251,14 +167,14 @@ public class MyHttpProblem extends HttpProblem {
 ```
 and tell this extension which schema is default for Problem Details: 
 ```properties
-quarkus.resteasy.problem.openapi.default-schema=MyHttpProblem
+quarkus.http-problem.openapi.default-schema=MyHttpProblem
 ```
 
 ## Configuration options
 
 - (Build time) Include MDC properties in the API response. You have to provide those properties to MDC using `MDC.put`
 ```
-quarkus.resteasy.problem.include-mdc-properties=uuid,application,version
+quarkus.http-problem.include-mdc-properties=uuid,application,version
 ```
 Result:
 ```json
@@ -273,8 +189,8 @@ Result:
 
 - (Runtime) Changes default `400 Bad request` response status when `ConstraintViolationException` is thrown (e.g. by Hibernate Validator)
 ```
-quarkus.resteasy.problem.constraint-violation.status=422
-quarkus.resteasy.problem.constraint-violation.title=Constraint violation
+quarkus.http-problem.constraint-violation.status=422
+quarkus.http-problem.constraint-violation.title=Constraint violation
 ```
 Result:
 ```json

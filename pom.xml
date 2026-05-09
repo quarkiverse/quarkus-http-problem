@@ -4,18 +4,18 @@
     <parent>
         <groupId>io.quarkiverse</groupId>
         <artifactId>quarkiverse-parent</artifactId>
-        <version>20</version>
+        <version>21</version>
     </parent>
 
-    <groupId>io.quarkiverse.resteasy-problem</groupId>
-    <artifactId>quarkus-resteasy-problem-parent</artifactId>
+    <groupId>io.quarkiverse.httpproblem</groupId>
+    <artifactId>quarkus-http-problem-parent</artifactId>
     <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Quarkus - RESTeasy - Problem - Parent</name>
-    <description>Problem Details for HTTP APIs (RFC-7807) implementation for Quarkus / RESTeasy - Parent POM.
+    <name>Quarkus - HTTP-Problem - Parent</name>
+    <description>Problem Details for HTTP APIs (RFC-7807) implementation for Quarkus REST - Parent POM.
     </description>
-    <url>https://github.com/quarkiverse/quarkus-resteasy-problem</url>
+    <url>https://github.com/quarkiverse/quarkus-http-problem</url>
 
     <properties>
         <java.version>17</java.version>
@@ -296,9 +296,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:quarkiverse/quarkus-resteasy-problem.git</connection>
-        <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-resteasy-problem.git</developerConnection>
-        <url>https://github.com/quarkiverse/quarkus-resteasy-problem</url>
+        <connection>scm:git:git@github.com:quarkiverse/quarkus-http-problem.git</connection>
+        <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-http-problem.git</developerConnection>
+        <url>https://github.com/quarkiverse/quarkus-http-problem</url>
       <tag>HEAD</tag>
   </scm>
 </project>

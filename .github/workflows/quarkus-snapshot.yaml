@@ -16,5 +16,5 @@ jobs:
     uses: quarkiverse/.github/.github/workflows/quarkus-ecosystem-ci.yml@main
     secrets: inherit
     with:
-      ecosystem_ci_repo_path: quarkiverse-resteasy-problem
+      ecosystem_ci_repo_path: quarkiverse-http-problem
       java_version: 17

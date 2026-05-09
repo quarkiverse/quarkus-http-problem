@@ -13,7 +13,7 @@ A clear and concise description of what the bug is.
 **To Reproduce**
 Steps to reproduce the behavior:
 - Sample application or code (github repo / gist / inline)
-- Quarkus version, quarkus-resteasy-problem version
+- Quarkus version, quarkus-http-problem version
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
