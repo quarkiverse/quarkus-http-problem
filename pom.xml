@@ -26,7 +26,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- runtime/test dependencies -->
-        <quarkus.version>3.35.0</quarkus.version>
+        <quarkus.version>3.35.2</quarkus.version>
         <zalando-problem.version>0.27.1</zalando-problem.version>
         <assertj.version>3.27.7</assertj.version>
         <jmh.version>1.37</jmh.version>
