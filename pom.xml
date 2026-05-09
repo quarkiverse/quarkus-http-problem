@@ -9,7 +9,7 @@
 
     <groupId>io.quarkiverse.httpproblem</groupId>
     <artifactId>quarkus-http-problem-parent</artifactId>
-    <version>3.33.0.CR1</version>
+    <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Quarkus - HTTP-Problem - Parent</name>
@@ -299,6 +299,6 @@
         <connection>scm:git:git@github.com:quarkiverse/quarkus-http-problem.git</connection>
         <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-http-problem.git</developerConnection>
         <url>https://github.com/quarkiverse/quarkus-http-problem</url>
-      <tag>3.33.0.CR1</tag>
+      <tag>HEAD</tag>
   </scm>
 </project>
