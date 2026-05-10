@@ -1,11 +1,11 @@
 # Problem Details for HTTP APIs ([RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457)) for Quarkus REST / RESTEasy
 
-[License](https://github.com/quarkiverse/quarkus-http-problem/blob/main/LICENSE.txt)
-[Documentation](https://quarkus.io/extensions/io.quarkiverse.httpproblem/quarkus-http-problem/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/quarkiverse/quarkus-http-problem/blob/main/LICENSE.txt)
+[![Documentation](https://img.shields.io/badge/docs-quarkus.io-0A6EBD)](https://quarkus.io/extensions/io.quarkiverse.httpproblem/quarkus-http-problem/)
 
-[Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/unit-tests.yaml)
-[Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/integration-tests.yaml)
-[Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/native-mode-tests.yaml)
+[![Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/unit-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/unit-tests.yaml)
+[![Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/integration-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/integration-tests.yaml)
+[![Build status](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/native-mode-tests.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-http-problem/actions/workflows/native-mode-tests.yaml)
 
 Extension implementing **Problem Details for HTTP APIs** as defined in [RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457) (which [obsoletes RFC 7807](https://datatracker.ietf.org/doc/html/rfc7807); the wire format and media type remain the same for typical JSON usage). It maps exceptions to `application/problem+json` HTTP responses. Inspired by the [Zalando Problem library](https://github.com/zalando/problem), originally open sourced by [Tieto](https://github.com/tieto), now part of Quarkiverse.
 
@@ -16,20 +16,18 @@ This extension supports:
 - OpenAPI integration (via `quarkus-smallrye-openapi`)
 - JVM and native mode
 
-## Why you should use this extension?
+## Why use this extension?
+From [RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457):
 
-- **consistency** - it unifies your REST API error messages, and gives it much needed consistency, no matter which JSON provider (Jackson vs JsonB) or paradigm (classic/blocking vs reactive) you're using.   
-- **predictability** - no matter what kind of exception is thrown: expected (thrown by you on purpose), or unexpected (not thrown 'by design') - your API consumer gets similar, repeatable experience.  
-- **safety** - it helps prevent leakage of some implementation details like stack-traces, DTO/resource class names etc.
-- **time-saving** - in most cases you will not have to implement your own JaxRS `ExceptionMapper`s anymore, which makes your app smaller, and less error-prone.
+> HTTP status codes (...) cannot always convey enough information about errors to be helpful. While humans using web browsers can often understand an HTML response content, non-human consumers of HTTP APIs have difficulty doing so.
+
+`quarkus-http-problem` helps address these concerns by providing:
+- **consistency** - it standardizes REST API error responses and ensures a consistent format, regardless of the JSON provider (Jackson vs JSON-B) or execution model (classic blocking vs reactive).   
+- **predictability** - whether an exception is expected (thrown intentionally) or unexpected, your API consumers get a similar and repeatable error format.  
+- **safety** - it helps prevent leaking implementation details such as stack traces, DTO names, and resource class names.
+- **time savings** - in most cases, you no longer need to implement your own JAX-RS `ExceptionMapper`s, which keeps your app smaller and less error-prone.
 
 See [Built-in Exception Mappers Wiki](https://github.com/quarkiverse/quarkus-http-problem/wiki#built-in-exception-mappers) for more details.
-
-From [RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457) (abstract):
-
-> This document defines a "problem detail" to carry machine-readable details of errors in HTTP response content to avoid the need to define new error response formats for HTTP APIs.
-
-The introduction adds that HTTP status codes cannot always convey enough information about errors to be helpful, and that non-human consumers of HTTP APIs have difficulty interpreting HTML responses—hence a common JSON (and optional XML) format for problem details. See [Appendix D of RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457#appendix-D) for a list of changes from [RFC 7807](https://datatracker.ietf.org/doc/html/rfc7807).
 
 ## Getting started
 
@@ -109,7 +107,7 @@ More on throwing problems: [zalando/problem usage](https://github.com/zalando/pr
 
 ### `quarkus-http-problem`
 
-Published as `[io.quarkiverse.httpproblem:quarkus-http-problem](https://central.sonatype.com/artifact/io.quarkiverse.httpproblem/quarkus-http-problem)`. This line targets **Quarkus 3.32+**; add the dependency and version from **Getting started**. 
+Published as [io.quarkiverse.httpproblem:quarkus-http-problem](https://central.sonatype.com/artifact/io.quarkiverse.httpproblem/quarkus-http-problem). This line targets **Quarkus 3.32+**; add the dependency and version from **Getting started**. 
 
 If you run an **older Quarkus**, stay on `**quarkus-resteasy-problem`** until you upgrade (table in the subsection below), or bump Quarkus first and then switch here.
 
