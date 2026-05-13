@@ -1,6 +1,6 @@
 # Migration from `quarkus-resteasy-problem`
 
-The extension was renamed to reflect support for both RESTEasy Classic and Quarkus REST (formerly RESTEasy Reactive). Apply the following changes when moving from `io.quarkiverse.resteasy-problem:quarkus-resteasy-problem` (3.32.x or earlier) to `io.quarkiverse.httpproblem:quarkus-http-problem` (3.33.0 onward; on Central this may be **3.33.0.CR1** until a GA build is published).
+The extension was renamed to reflect support for both RESTEasy Classic and Quarkus REST (formerly RESTEasy Reactive). Apply the following changes when moving from `io.quarkiverse.resteasy-problem:quarkus-resteasy-problem` (3.32.x or earlier) to `io.quarkiverse.httpproblem:quarkus-http-problem` (3.33.0 onward).
 
 If you only consumed the extension transitively and have no custom imports or `quarkus.resteasy.problem.*` configuration, replacing the dependency coordinates may be enough.
 
@@ -16,7 +16,7 @@ Replace the dependency coordinates:
 <dependency>
     <groupId>io.quarkiverse.httpproblem</groupId>
     <artifactId>quarkus-http-problem</artifactId>
-    <version>3.33.0.CR1</version>
+    <version>3.33.0</version>
 </dependency>
 ```
 
@@ -27,7 +27,7 @@ Remove `io.quarkiverse.resteasy-problem:quarkus-resteasy-problem`.
 ### Gradle (Kotlin DSL)
 
 ```kotlin
-implementation("io.quarkiverse.httpproblem:quarkus-http-problem:3.33.0.CR1")
+implementation("io.quarkiverse.httpproblem:quarkus-http-problem:3.33.0")
 ```
 
 ## Configuration
