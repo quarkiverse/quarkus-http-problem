@@ -39,7 +39,7 @@ Add this to your pom.xml (this extension is not on the Quarkus Platform BOM yet,
 <dependency>
     <groupId>io.quarkiverse.httpproblem</groupId>
     <artifactId>quarkus-http-problem</artifactId>
-    <version>3.33.0</version>
+    <version>3.33.1</version>
 </dependency>
 ```
 

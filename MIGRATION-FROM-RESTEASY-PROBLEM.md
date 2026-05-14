@@ -16,7 +16,7 @@ Replace the dependency coordinates:
 <dependency>
     <groupId>io.quarkiverse.httpproblem</groupId>
     <artifactId>quarkus-http-problem</artifactId>
-    <version>3.33.0</version>
+    <version>3.33.1</version>
 </dependency>
 ```
 
@@ -27,7 +27,7 @@ Remove `io.quarkiverse.resteasy-problem:quarkus-resteasy-problem`.
 ### Gradle (Kotlin DSL)
 
 ```kotlin
-implementation("io.quarkiverse.httpproblem:quarkus-http-problem:3.33.0")
+implementation("io.quarkiverse.httpproblem:quarkus-http-problem:3.33.1")
 ```
 
 ## Configuration
