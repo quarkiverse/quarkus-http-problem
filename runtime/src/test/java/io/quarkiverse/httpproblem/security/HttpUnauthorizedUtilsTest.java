@@ -31,7 +31,8 @@ class HttpUnauthorizedUtilsTest {
 
     @Test
     void shouldBuildUnauthorizedProblemWhenAuthenticatorReturns401Challenge() {
-        RoutingContext routingContext = routingContextReturningChallenge(401);
+        ChallengeData challenge = new ChallengeData(401, "WWW-Authenticate", "Bearer realm=\"example\"");
+        RoutingContext routingContext = routingContextReturningChallenge(challenge);
 
         HttpProblem problem = HttpUnauthorizedUtils.toProblem(routingContext, new RuntimeException("ignored"))
                 .await().atMost(Duration.ofSeconds(5));
@@ -39,6 +40,8 @@ class HttpUnauthorizedUtilsTest {
         assertThat(problem.getStatusCode()).isEqualTo(401);
         assertThat(problem.getTitle()).isEqualTo("Unauthorized");
         assertThat(problem.getDetail()).isNull();
+        assertThat(problem.getHeaders())
+                .containsEntry("WWW-Authenticate", "Bearer realm=\"example\"");
     }
 
     @Test
@@ -54,11 +57,15 @@ class HttpUnauthorizedUtilsTest {
     }
 
     private static RoutingContext routingContextReturningChallenge(int challengeStatusCode) {
+        return routingContextReturningChallenge(new ChallengeData(challengeStatusCode));
+    }
+
+    private static RoutingContext routingContextReturningChallenge(ChallengeData challenge) {
         RoutingContext routingContext = mock(RoutingContext.class);
         HttpAuthenticator authenticator = mock(HttpAuthenticator.class);
         when(routingContext.get(HttpAuthenticator.class.getName())).thenReturn(authenticator);
         when(authenticator.getChallenge(any(RoutingContext.class)))
-                .thenReturn(Uni.createFrom().item(new ChallengeData(challengeStatusCode)));
+                .thenReturn(Uni.createFrom().item(challenge));
         return routingContext;
     }
 }
