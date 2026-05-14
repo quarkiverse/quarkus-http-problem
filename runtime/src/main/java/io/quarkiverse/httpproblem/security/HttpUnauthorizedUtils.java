@@ -24,10 +24,16 @@ final class HttpUnauthorizedUtils {
                                 .build();
                     }
 
-                    Response.Status status = Response.Status.fromStatusCode(challenge.status);
                     HttpProblem.Builder builder = HttpProblem.builder()
-                            .withStatus(status)
-                            .withTitle(status.getReasonPhrase());
+                            .withStatus(challenge.status);
+
+                    Response.Status status = Response.Status.fromStatusCode(challenge.status);
+                    if (status != null) {
+                        builder = builder.withTitle(status.getReasonPhrase());
+                    } else {
+                        builder = builder.withTitle("HTTP Status " + challenge.status);
+                    }
+
                     if (challenge.getHeaders() != null) {
                         for (CharSequence headerName : challenge.getHeaders().keySet()) {
                             builder = builder.withHeader(headerName.toString(), challenge.getHeaders().get(headerName));
