@@ -14,11 +14,11 @@ import io.quarkiverse.httpproblem.HttpProblem;
  * Logs problems with ERROR (for HTTP 5XX) or INFO (other exceptions) log level. In case of ERROR (HTTP 5XX) stack trace is
  * printed as well.
  */
-final class ProblemLogger implements ProblemPostProcessor {
+public final class ProblemLogger implements ProblemPostProcessor {
 
     private final Logger logger;
 
-    ProblemLogger(Logger logger) {
+    public ProblemLogger(Logger logger) {
         this.logger = logger;
     }
 
