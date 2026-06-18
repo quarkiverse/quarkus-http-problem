@@ -2,8 +2,8 @@ package io.quarkiverse.httpproblem.postprocessing;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import org.slf4j.LoggerFactory;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import io.quarkiverse.httpproblem.HttpProblem;
 
@@ -12,20 +12,27 @@ import io.quarkiverse.httpproblem.HttpProblem;
  */
 public final class PostProcessorsRegistry {
 
+    private final Supplier<Stream<ProblemPostProcessor>> inheritedProcessors;
     private final List<ProblemPostProcessor> processors = new CopyOnWriteArrayList<>();
 
     public PostProcessorsRegistry() {
-        reset();
+        this(Stream::empty);
+    }
+
+    public PostProcessorsRegistry(PostProcessorsRegistry parent) {
+        this(parent::stream);
+    }
+
+    public PostProcessorsRegistry(Supplier<Stream<ProblemPostProcessor>> inheritedProcessors) {
+        this.inheritedProcessors = inheritedProcessors;
     }
 
     /**
-     * Removes all registered post-processors and registers default ones. Used mainly for Quarkus dev mode (live-reload) tests
-     * where there's a need to reset registered processors because of config change.
+     * Removes all registered local post-processors. Used mainly for Quarkus dev mode (live-reload) tests where there's a
+     * need to reset registered processors because of config change.
      */
     public synchronized void reset() {
         processors.clear();
-        register(new ProblemLogger(LoggerFactory.getLogger("http-problem")));
-        register(new ProblemDefaultsProvider());
     }
 
     public synchronized void register(ProblemPostProcessor processor) {
@@ -42,10 +49,15 @@ public final class PostProcessorsRegistry {
      */
     public HttpProblem applyPostProcessing(HttpProblem problem, ProblemContext context) {
         HttpProblem finalProblem = problem;
+        Iterable<ProblemPostProcessor> processors = stream()::iterator;
         for (ProblemPostProcessor processor : processors) {
             finalProblem = processor.apply(finalProblem, context);
         }
         return finalProblem;
+    }
+
+    public Stream<ProblemPostProcessor> stream() {
+        return Stream.concat(inheritedProcessors.get(), processors.stream());
     }
 
 }

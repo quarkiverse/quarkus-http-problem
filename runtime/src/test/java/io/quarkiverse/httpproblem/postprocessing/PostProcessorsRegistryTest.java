@@ -43,6 +43,51 @@ class PostProcessorsRegistryTest {
         assertThat(invocations).containsExactly(HIGHEST, MEDIUM, MEDIUM, MEDIUM);
     }
 
+    @Test
+    void shouldCreateEmptyRegistry() {
+        HttpProblem originalProblem = badRequestProblem();
+
+        HttpProblem finalProblem = new PostProcessorsRegistry()
+                .applyPostProcessing(originalProblem, simpleContext());
+
+        assertThat(finalProblem).isSameAs(originalProblem);
+    }
+
+    @Test
+    void shouldOnlyClearLocalProcessorsWhenResettingCustomRegistry() {
+        List<ProblemPostProcessor> inheritedProcessors = new ArrayList<>();
+        PostProcessorsRegistry customRegistry = new PostProcessorsRegistry(inheritedProcessors::stream);
+        inheritedProcessors.add(processorWithPriority(LOW));
+        customRegistry.register(processorWithPriority(MEDIUM));
+        customRegistry.reset();
+
+        customRegistry.applyPostProcessing(badRequestProblem(), simpleContext());
+
+        assertThat(invocations).containsExactly(LOW);
+    }
+
+    @Test
+    void shouldApplyLocalProcessorsAfterInheritedStream() {
+        PostProcessorsRegistry childRegistry = new PostProcessorsRegistry(registry);
+        registry.register(processorWithPriority(LOW));
+        childRegistry.register(processorWithPriority(HIGHEST));
+
+        childRegistry.applyPostProcessing(badRequestProblem(), simpleContext());
+
+        assertThat(invocations).containsExactly(LOW, HIGHEST);
+    }
+
+    @Test
+    void shouldUseSupplierStreamAtApplyTime() {
+        List<ProblemPostProcessor> inheritedProcessors = new ArrayList<>();
+        PostProcessorsRegistry registryWithLiveInheritedStream = new PostProcessorsRegistry(inheritedProcessors::stream);
+        inheritedProcessors.add(processorWithPriority(MEDIUM));
+
+        registryWithLiveInheritedStream.applyPostProcessing(badRequestProblem(), simpleContext());
+
+        assertThat(invocations).containsExactly(MEDIUM);
+    }
+
     ProblemPostProcessor processorWithPriority(int priority) {
         return new TestProcessor(priority);
     }
