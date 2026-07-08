@@ -7,7 +7,7 @@ import io.quarkiverse.httpproblem.InstanceUtils;
  * Replaces <code>null</code> value of <code>instance</code> with URI of currently served endpoint, i.e
  * <code>/products/123</code>
  */
-final class ProblemDefaultsProvider implements ProblemPostProcessor {
+public final class ProblemDefaultsProvider implements ProblemPostProcessor {
 
     @Override
     public int priority() {

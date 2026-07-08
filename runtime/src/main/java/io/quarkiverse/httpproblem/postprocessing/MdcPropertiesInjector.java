@@ -11,7 +11,7 @@ import io.quarkiverse.httpproblem.HttpProblem;
  * Injects existing MDC properties listed in the configuration into final response. Missing MDC values and properties already
  * defined in Problem instance are skipped.
  */
-final class MdcPropertiesInjector implements ProblemPostProcessor {
+public final class MdcPropertiesInjector implements ProblemPostProcessor {
 
     private final Set<String> properties;
 

@@ -284,6 +284,33 @@ class CustomPostProcessor implements ProblemPostProcessor {
 }
 ```
 
+Custom post-processors registered as CDI beans are applied globally. If a particular mapper needs its own post-processing
+pipeline, pass a custom `PostProcessorsRegistry` to `ExceptionMapperBase`:
+
+```java
+class CustomExceptionMapper extends ExceptionMapperBase<CustomException> {
+
+    private static final PostProcessorsRegistry POST_PROCESSORS = new PostProcessorsRegistry(
+            () -> ExceptionMapperBase.postProcessorsRegistry.stream()
+                    .filter(processor -> !(processor instanceof ProblemLogger)));
+
+    CustomExceptionMapper() {
+        super(POST_PROCESSORS);
+    }
+
+    @Override
+    protected HttpProblem toProblem(CustomException exception) {
+        return HttpProblem.valueOf(Response.Status.BAD_REQUEST);
+    }
+}
+```
+
+`new PostProcessorsRegistry()` creates an empty custom registry. `new PostProcessorsRegistry(parentRegistry)` creates a
+custom registry that live-inherits from the parent registry and can register mapper-specific post-processors. The supplier
+constructor and `stream()` method can be used for more advanced live views, for example to filter globally registered
+post-processors. Custom-created registries do not include extension defaults unless they inherit them from another registry
+or register them explicitly.
+
 ## Troubles?
 
 If you have questions, concerns, bug reports, etc, please file an issue in this repository's Issue Tracker. You may also want to have a look at [troubleshooting FAQ](./TROUBLESHOOTING.md).
