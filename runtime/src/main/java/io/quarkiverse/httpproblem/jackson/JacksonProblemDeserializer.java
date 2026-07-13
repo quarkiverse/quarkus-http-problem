@@ -18,6 +18,9 @@ import io.quarkiverse.httpproblem.HttpProblem;
  */
 public final class JacksonProblemDeserializer extends StdDeserializer<HttpProblem> {
 
+    public static final TypeReference<Map<String, Object>> VALUE_TYPE_REF = new TypeReference<>() {
+    };
+
     private final ObjectMapper mapper;
 
     public JacksonProblemDeserializer(ObjectMapper mapper) {
@@ -27,8 +30,7 @@ public final class JacksonProblemDeserializer extends StdDeserializer<HttpProble
 
     @Override
     public HttpProblem deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-        Map<String, Object> rawDeserializedProblem = mapper.readValue(jsonParser, new TypeReference<>() {
-        });
+        Map<String, Object> rawDeserializedProblem = mapper.readValue(jsonParser, VALUE_TYPE_REF);
 
         HttpProblem.Builder builder = HttpProblem.builder();
         for (String fieldName : rawDeserializedProblem.keySet()) {

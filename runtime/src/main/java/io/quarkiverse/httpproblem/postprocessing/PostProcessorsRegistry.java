@@ -1,11 +1,12 @@
 package io.quarkiverse.httpproblem.postprocessing;
 
-import io.quarkiverse.httpproblem.HttpProblem;
+import java.util.List;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 
-import java.util.List;
+import io.quarkiverse.httpproblem.HttpProblem;
 
 /**
  * Container for prioritised list of Problem post-processors.
@@ -14,7 +15,7 @@ import java.util.List;
 @ApplicationScoped
 public class PostProcessorsRegistry {
 
-    private List<ProblemPostProcessor> processors;
+    private final List<ProblemPostProcessor> processors;
 
     @Inject
     PostProcessorsRegistry(Instance<ProblemPostProcessor> processorInstances) {
