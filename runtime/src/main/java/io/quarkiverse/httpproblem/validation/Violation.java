@@ -1,5 +1,7 @@
 package io.quarkiverse.httpproblem.validation;
 
+import java.util.Objects;
+
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Schema(name = "Violation", description = "Validation constraint violation details")
@@ -42,9 +44,9 @@ public final class Violation {
     public final String message;
 
     private Violation(String field, String in, String message) {
-        this.field = field;
-        this.in = in;
-        this.message = message;
+        this.field = Objects.requireNonNull(field, "field must not be null");
+        this.in = Objects.requireNonNull(in, "in must not be null");
+        this.message = Objects.requireNonNull(message, "message must not be null");
     }
 
     @Override
