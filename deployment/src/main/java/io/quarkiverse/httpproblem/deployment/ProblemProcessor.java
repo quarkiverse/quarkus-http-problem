@@ -35,6 +35,7 @@ import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.annotations.Record;
+import io.quarkus.deployment.builditem.AdditionalIndexedClassesBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
@@ -230,6 +231,12 @@ public class ProblemProcessor {
             return;
         }
         indexDependency.produce(new IndexDependencyBuildItem("io.quarkiverse.httpproblem", "quarkus-http-problem"));
+    }
+
+    @BuildStep
+    AdditionalIndexedClassesBuildItem indexRestClientExceptionMapper() {
+        return new AdditionalIndexedClassesBuildItem(
+                EXTENSION_MAIN_PACKAGE + "client.ThrowingHttpProblemClientExceptionMapper");
     }
 
     @BuildStep
