@@ -33,17 +33,16 @@ See [Built-in Exception Mappers Wiki](https://github.com/quarkiverse/quarkus-htt
 
 Use `[io.quarkiverse.httpproblem:quarkus-http-problem](https://central.sonatype.com/artifact/io.quarkiverse.httpproblem/quarkus-http-problem)` with **Quarkus 3.32 or newer** (same baseline as the extension version you choose). Older Quarkus releases should keep using `[quarkus-resteasy-problem](#quarkus-resteasy-problem-legacy-coordinates)` until you upgrade.
 
-Add this to your pom.xml (this extension is not on the Quarkus Platform BOM yet, so the version must be explicit):
+Add this to your pom.xml (this extension is part of the Quarkus Platform BOM - since `3.38.0` - which manages its version):
 
 ```xml
 <dependency>
     <groupId>io.quarkiverse.httpproblem</groupId>
     <artifactId>quarkus-http-problem</artifactId>
-    <version>3.33.2</version>
 </dependency>
 ```
 
-Pick a version that matches your Quarkus release; see [Versioning](#versioning) below.
+For older release pick a version that matches your Quarkus release; see [Versioning](#versioning) below
 
 Once you run Quarkus: `./mvnw compile quarkus:dev`, you should see `http-problem` in the logs:
 
@@ -107,7 +106,7 @@ More on throwing problems: [zalando/problem usage](https://github.com/zalando/pr
 
 ### `quarkus-http-problem`
 
-Published as [io.quarkiverse.httpproblem:quarkus-http-problem](https://central.sonatype.com/artifact/io.quarkiverse.httpproblem/quarkus-http-problem). This line targets **Quarkus 3.32+**; add the dependency and version from **Getting started**. 
+Published as [io.quarkiverse.httpproblem:quarkus-http-problem](https://central.sonatype.com/artifact/io.quarkiverse.httpproblem/quarkus-http-problem). This line targets **Quarkus 3.32+**; add the dependency (and *version* if you're using pre-`3.38.x`) from **Getting started**. 
 
 If you run an **older Quarkus**, stay on `**quarkus-resteasy-problem`** until you upgrade (table in the subsection below), or bump Quarkus first and then switch here.
 
