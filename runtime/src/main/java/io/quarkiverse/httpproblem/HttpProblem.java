@@ -59,6 +59,11 @@ public class HttpProblem extends RuntimeException {
         this.headers = Collections.unmodifiableMap(Optional.ofNullable(builder.headers).orElseGet(LinkedHashMap::new));
     }
 
+    @Override
+    public synchronized Throwable fillInStackTrace() {
+        return this;
+    }
+
     private static String createMessage(String title, String detail) {
         return Stream.of(title, detail)
                 .filter(Objects::nonNull)
