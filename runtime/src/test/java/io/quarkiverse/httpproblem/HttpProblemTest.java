@@ -50,4 +50,10 @@ class HttpProblemTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
+    void shouldNotCaptureStackTrace() {
+        HttpProblem problem = HttpProblem.valueOf(Response.Status.BAD_REQUEST);
+        assertThat(problem.getStackTrace()).isEmpty();
+    }
+
 }
