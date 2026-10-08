@@ -45,10 +45,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.BeanDescription;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
 
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.ProblemRuntimeFixedConfig;
@@ -56,6 +52,12 @@ import io.quarkiverse.httpproblem.postprocessing.PostProcessorsRegistry;
 import io.quarkiverse.httpproblem.postprocessing.ProblemDefaultsProvider;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLogger;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLoggingConfig;
+import tools.jackson.databind.BeanDescription;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationConfig;
+import tools.jackson.databind.introspect.BeanPropertyDefinition;
+import tools.jackson.databind.introspect.ClassIntrospector;
 
 class ConstraintViolationExceptionMapperTest {
 
@@ -462,7 +464,10 @@ class ConstraintViolationExceptionMapperTest {
 
         private String getJavaBeanPropertyName(JavaBeanProperty property) {
             JavaType type = objectMapper.constructType(property.getDeclaringClass());
-            BeanDescription desc = objectMapper.getSerializationConfig().introspect(type);
+            SerializationConfig config = objectMapper.serializationConfig();
+            ClassIntrospector introspector = config.classIntrospectorInstance().forOperation(config);
+            BeanDescription desc = introspector.introspectForSerialization(type,
+                    introspector.introspectClassAnnotations(type));
 
             return desc.findProperties()
                     .stream()

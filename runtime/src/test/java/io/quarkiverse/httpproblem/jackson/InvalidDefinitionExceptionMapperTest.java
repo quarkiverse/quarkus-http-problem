@@ -9,16 +9,15 @@ import jakarta.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
-
 import io.quarkiverse.httpproblem.DetailSanitizer;
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.postprocessing.PostProcessorsRegistry;
 import io.quarkiverse.httpproblem.postprocessing.ProblemDefaultsProvider;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLogger;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLoggingConfig;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.exc.InvalidDefinitionException;
 
 class InvalidDefinitionExceptionMapperTest {
 
@@ -29,7 +28,7 @@ class InvalidDefinitionExceptionMapperTest {
     @Test
     void shouldProduceHttp400WithFieldInfo() {
         InvalidDefinitionException exception = buildExceptionWithPath(
-                new JsonMappingException.Reference(this, "customFieldName"));
+                new DatabindException.Reference(this, "customFieldName"));
 
         Response response = mapper.toResponse(exception);
 
@@ -57,7 +56,7 @@ class InvalidDefinitionExceptionMapperTest {
         InvalidDefinitionExceptionMapper sanitizedMapper = new InvalidDefinitionExceptionMapper(registry,
                 new DetailSanitizer(false));
         InvalidDefinitionException exception = buildExceptionWithPath(
-                new JsonMappingException.Reference(this, "customFieldName"));
+                new DatabindException.Reference(this, "customFieldName"));
 
         Response response = sanitizedMapper.toResponse(exception);
 
@@ -71,7 +70,7 @@ class InvalidDefinitionExceptionMapperTest {
     @Test
     void shouldPreserveDetailWhenIncludeDetails() {
         InvalidDefinitionException exception = buildExceptionWithPath(
-                new JsonMappingException.Reference(this, "customFieldName"));
+                new DatabindException.Reference(this, "customFieldName"));
 
         Response response = mapper.toResponse(exception);
 
@@ -80,9 +79,9 @@ class InvalidDefinitionExceptionMapperTest {
                 .hasFieldOrPropertyWithValue("detail", "Invalid definition");
     }
 
-    private InvalidDefinitionException buildExceptionWithPath(JsonMappingException.Reference... pathSegments) {
+    private InvalidDefinitionException buildExceptionWithPath(DatabindException.Reference... pathSegments) {
         InvalidDefinitionException exception = InvalidDefinitionException.from(mock(JsonParser.class),
-                "Invalid definition", (com.fasterxml.jackson.databind.JavaType) null);
+                "Invalid definition", (tools.jackson.databind.JavaType) null);
 
         for (int i = pathSegments.length - 1; i >= 0; --i) {
             exception.prependPath(pathSegments[i]);

@@ -1,17 +1,14 @@
 package io.quarkiverse.httpproblem.jackson;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-
 import io.quarkiverse.httpproblem.HttpProblem;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
 /**
  * Low level Jackson deserializer for HttpProblem type.
@@ -21,16 +18,13 @@ public final class JacksonProblemDeserializer extends StdDeserializer<HttpProble
     public static final TypeReference<Map<String, Object>> VALUE_TYPE_REF = new TypeReference<>() {
     };
 
-    private final ObjectMapper mapper;
-
-    public JacksonProblemDeserializer(ObjectMapper mapper) {
-        super((Class<HttpProblem>) null);
-        this.mapper = mapper;
+    public JacksonProblemDeserializer() {
+        super(HttpProblem.class);
     }
 
     @Override
-    public HttpProblem deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-        Map<String, Object> rawDeserializedProblem = mapper.readValue(jsonParser, VALUE_TYPE_REF);
+    public HttpProblem deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) {
+        Map<String, Object> rawDeserializedProblem = deserializationContext.readValue(jsonParser, VALUE_TYPE_REF);
 
         HttpProblem.Builder builder = HttpProblem.builder();
         for (String fieldName : rawDeserializedProblem.keySet()) {
@@ -47,7 +41,7 @@ public final class JacksonProblemDeserializer extends StdDeserializer<HttpProble
         return builder.build();
     }
 
-    private URI uriOrThrow(Object child, String fieldName, JsonParser jsonParser) throws JsonMappingException {
+    private URI uriOrThrow(Object child, String fieldName, JsonParser jsonParser) throws DatabindException {
         if (child == null) {
             return null;
         }
@@ -55,15 +49,15 @@ public final class JacksonProblemDeserializer extends StdDeserializer<HttpProble
         try {
             return URI.create((String) child);
         } catch (IllegalArgumentException e) {
-            throw JsonMappingException.from(jsonParser, "'%s' field must be a valid URI".formatted(fieldName));
+            throw DatabindException.from(jsonParser, "'%s' field must be a valid URI".formatted(fieldName));
         }
     }
 
-    private int intOrThrow(Object child, String fieldName, JsonParser jsonParser) throws JsonMappingException {
+    private int intOrThrow(Object child, String fieldName, JsonParser jsonParser) throws DatabindException {
         try {
             return (int) child;
         } catch (ClassCastException e) {
-            throw JsonMappingException.from(jsonParser, "'%s' field must be a valid http status code".formatted(fieldName));
+            throw DatabindException.from(jsonParser, "'%s' field must be a valid http status code".formatted(fieldName));
         }
     }
 

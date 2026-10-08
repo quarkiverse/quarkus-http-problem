@@ -11,13 +11,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonEncoding;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.HttpProblemMother;
 import io.quarkiverse.httpproblem.InstanceUtils;
+import tools.jackson.core.JsonEncoding;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.json.JsonMapper;
 
 class JacksonProblemSerializerTest {
 
@@ -28,7 +27,8 @@ class JacksonProblemSerializerTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        jsonGenerator = new JsonFactory()
+        // Generator comes from a mapper so that writePOJOProperty has a real ObjectWriteContext
+        jsonGenerator = JsonMapper.builder().build()
                 .createGenerator(outputStream, JsonEncoding.UTF8);
     }
 

@@ -6,18 +6,17 @@ import jakarta.annotation.Priority;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Priorities;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import io.quarkiverse.httpproblem.DetailSanitizer;
 import io.quarkiverse.httpproblem.ExceptionMapperBase;
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.postprocessing.PostProcessorsRegistry;
+import tools.jackson.core.JacksonException;
 
 /**
  * Mapper for Jackson payload processing exceptions.
  */
 @Priority(Priorities.USER)
-public final class JsonProcessingExceptionMapper extends ExceptionMapperBase<JsonProcessingException> {
+public final class JsonProcessingExceptionMapper extends ExceptionMapperBase<JacksonException> {
 
     private final DetailSanitizer detailSanitizer;
 
@@ -33,7 +32,7 @@ public final class JsonProcessingExceptionMapper extends ExceptionMapperBase<Jso
     }
 
     @Override
-    protected HttpProblem toProblem(JsonProcessingException exception) {
+    protected HttpProblem toProblem(JacksonException exception) {
         return HttpProblem.valueOf(BAD_REQUEST, detailSanitizer.sanitize(exception.getOriginalMessage()));
     }
 }

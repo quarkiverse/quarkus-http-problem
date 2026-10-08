@@ -5,15 +5,14 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.core.Response;
 
-import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
-
 import io.quarkiverse.httpproblem.DetailSanitizer;
 import io.quarkiverse.httpproblem.ExceptionMapperBase;
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.postprocessing.PostProcessorsRegistry;
+import tools.jackson.databind.exc.InvalidDefinitionException;
 
 /**
- * Mapper for Jackson InvalidDefinitionException, which is more specialized version of JsonProcessingException,
+ * Mapper for Jackson InvalidDefinitionException, which is more specialized version of JacksonException,
  * This exception has a specific mapper in Quarkus REST.
  */
 @Priority(Priorities.USER - 1)

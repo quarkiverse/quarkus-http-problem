@@ -39,7 +39,7 @@ import io.quarkus.deployment.builditem.AdditionalIndexedClassesBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
-import io.quarkus.devui.spi.JsonRPCProvidersBuildItem;
+import io.quarkus.devjsonrpc.spi.JsonRPCProvidersBuildItem;
 import io.quarkus.devui.spi.page.CardPageBuildItem;
 import io.quarkus.devui.spi.page.Page;
 import io.quarkus.jsonb.spi.JsonbDeserializerBuildItem;
@@ -50,6 +50,7 @@ import io.quarkus.resteasy.reactive.spi.ExceptionMapperBuildItem;
 import io.quarkus.runtime.RuntimeValue;
 import io.quarkus.runtime.configuration.ConfigurationException;
 import io.quarkus.smallrye.openapi.deployment.spi.AddToOpenAPIDefinitionBuildItem;
+import io.quarkus.smallrye.openapi.deployment.spi.OpenAPISPIConstants;
 
 public class ProblemProcessor {
 
@@ -88,19 +89,19 @@ public class ProblemProcessor {
                         .thatHandles("jakarta.validation.ConstraintViolationException"),
 
                 mapper(EXTENSION_MAIN_PACKAGE + "jackson.JsonProcessingExceptionMapper")
-                        .thatHandles("com.fasterxml.jackson.core.JsonProcessingException")
+                        .thatHandles("tools.jackson.core.JacksonException")
                         .onlyIf(Capability.JACKSON),
                 mapper(EXTENSION_MAIN_PACKAGE + "jackson.UnrecognizedPropertyExceptionMapper")
-                        .thatHandles("com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException")
+                        .thatHandles("tools.jackson.databind.exc.UnrecognizedPropertyException")
                         .onlyIf(Capability.JACKSON),
                 mapper(EXTENSION_MAIN_PACKAGE + "jackson.InvalidFormatExceptionMapper")
-                        .thatHandles("com.fasterxml.jackson.databind.exc.InvalidFormatException")
+                        .thatHandles("tools.jackson.databind.exc.InvalidFormatException")
                         .onlyIf(Capability.JACKSON),
                 mapper(EXTENSION_MAIN_PACKAGE + "jackson.MismatchedInputExceptionMapper")
-                        .thatHandles("com.fasterxml.jackson.databind.exc.MismatchedInputException")
+                        .thatHandles("tools.jackson.databind.exc.MismatchedInputException")
                         .onlyIf(Capability.JACKSON),
                 mapper(EXTENSION_MAIN_PACKAGE + "jackson.InvalidDefinitionExceptionMapper")
-                        .thatHandles("com.fasterxml.jackson.databind.exc.InvalidDefinitionException")
+                        .thatHandles("tools.jackson.databind.exc.InvalidDefinitionException")
                         .onlyIf(Capability.JACKSON),
 
                 mapper(EXTENSION_MAIN_PACKAGE + "jsonb.RestEasyClassicJsonbExceptionMapper")
@@ -246,7 +247,7 @@ public class ProblemProcessor {
             return;
         }
         OASFilter filter = new OpenApiProblemFilter(config, runtimeConfig);
-        openAPIProducer.produce(new AddToOpenAPIDefinitionBuildItem(filter));
+        openAPIProducer.produce(new AddToOpenAPIDefinitionBuildItem(filter, OpenAPISPIConstants.DEFAULT_DOCUMENT_NAME));
     }
 
     @BuildStep

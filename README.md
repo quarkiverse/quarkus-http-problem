@@ -110,6 +110,13 @@ Published as [io.quarkiverse.httpproblem:quarkus-http-problem](https://central.s
 
 If you run an **older Quarkus**, stay on `**quarkus-resteasy-problem`** until you upgrade (table in the subsection below), or bump Quarkus first and then switch here.
 
+| Quarkus version | Extension version |
+| --------------- | ----------------- |
+| 4.0+            | 4.0.x             |
+| 3.32+           | 3.38.2            |
+
+The `4.0.x` line targets Quarkus 4 and requires **JDK 21**. Stay on `3.38.x` while you are still on Quarkus 3.
+
 If you are upgrading from `io.quarkiverse.resteasy-problem`, see [Migration from](./MIGRATION-FROM-RESTEASY-PROBLEM.md) `quarkus-resteasy-problem`.
 
 ### `quarkus-resteasy-problem` (legacy coordinates)
@@ -281,7 +288,7 @@ When a mapper is disabled, the exception will not be converted to `application/p
 
 Available mapper keys: `http-problem`, `web-application-exception`, `forbidden-exception`, `not-found-exception`, `unauthorized-exception`, 
 `authentication-failed-exception`, `authentication-redirect-exception`, `authentication-completion-exception`, `validation-exception`, 
-`constraint-violation-exception`, `json-processing-exception`, `unrecognized-property-exception`, `invalid-format-exception`, 
+`constraint-violation-exception`, `jackson-exception`, `unrecognized-property-exception`, `invalid-format-exception`, 
 `processing-exception`, `jsonb-exception`, `throwable-problem`, `exception`.
 
 - (Runtime) Tuning logging
