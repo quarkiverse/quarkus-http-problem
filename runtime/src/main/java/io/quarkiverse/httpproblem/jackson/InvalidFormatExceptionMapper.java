@@ -5,12 +5,11 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.core.Response;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-
 import io.quarkiverse.httpproblem.DetailSanitizer;
 import io.quarkiverse.httpproblem.ExceptionMapperBase;
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.postprocessing.PostProcessorsRegistry;
+import tools.jackson.databind.exc.InvalidFormatException;
 
 /**
  * Mapper for Jackson InvalidFormatException, which is more specialised version of JsonProcessingException

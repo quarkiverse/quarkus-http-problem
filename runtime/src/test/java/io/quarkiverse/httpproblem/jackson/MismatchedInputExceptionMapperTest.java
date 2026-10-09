@@ -9,16 +9,15 @@ import jakarta.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-
 import io.quarkiverse.httpproblem.DetailSanitizer;
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.postprocessing.PostProcessorsRegistry;
 import io.quarkiverse.httpproblem.postprocessing.ProblemDefaultsProvider;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLogger;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLoggingConfig;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.exc.MismatchedInputException;
 
 class MismatchedInputExceptionMapperTest {
 
@@ -29,7 +28,7 @@ class MismatchedInputExceptionMapperTest {
     @Test
     void shouldProduceHttp400WithFieldInfo() {
         MismatchedInputException exception = buildExceptionWithPath(
-                new JsonMappingException.Reference(this, "customFieldName"));
+                new JacksonException.Reference(this, "customFieldName"));
 
         Response response = mapper.toResponse(exception);
 
@@ -44,9 +43,9 @@ class MismatchedInputExceptionMapperTest {
     @Test
     void mismatchedInputInsideCollectionShouldShowValidPath() {
         MismatchedInputException exception = buildExceptionWithPath(
-                new JsonMappingException.Reference(this, "collection"),
-                new JsonMappingException.Reference(this, 2),
-                new JsonMappingException.Reference(this, "customFieldName"));
+                new JacksonException.Reference(this, "collection"),
+                new JacksonException.Reference(this, 2),
+                new JacksonException.Reference(this, "customFieldName"));
 
         Response response = mapper.toResponse(exception);
 
@@ -71,7 +70,7 @@ class MismatchedInputExceptionMapperTest {
         MismatchedInputExceptionMapper sanitizedMapper = new MismatchedInputExceptionMapper(registry,
                 new DetailSanitizer(false));
         MismatchedInputException exception = buildExceptionWithPath(
-                new JsonMappingException.Reference(this, "customFieldName"));
+                new JacksonException.Reference(this, "customFieldName"));
 
         Response response = sanitizedMapper.toResponse(exception);
 
@@ -85,7 +84,7 @@ class MismatchedInputExceptionMapperTest {
     @Test
     void shouldPreserveDetailWhenIncludeDetails() {
         MismatchedInputException exception = buildExceptionWithPath(
-                new JsonMappingException.Reference(this, "customFieldName"));
+                new JacksonException.Reference(this, "customFieldName"));
 
         Response response = mapper.toResponse(exception);
 
@@ -94,7 +93,7 @@ class MismatchedInputExceptionMapperTest {
                 .hasFieldOrPropertyWithValue("detail", "Mismatched input");
     }
 
-    private MismatchedInputException buildExceptionWithPath(JsonMappingException.Reference... pathSegments) {
+    private MismatchedInputException buildExceptionWithPath(JacksonException.Reference... pathSegments) {
         MismatchedInputException exception = MismatchedInputException.from(mock(JsonParser.class),
                 this.getClass(), "Mismatched input");
 

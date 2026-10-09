@@ -7,33 +7,33 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
+import tools.jackson.core.JacksonException;
 
 class JacksonFieldPathSerializerTest {
 
     @Test
     void singleFieldName() {
-        List<JsonMappingException.Reference> path = List.of(
-                new JsonMappingException.Reference(this, "userName"));
+        List<JacksonException.Reference> path = List.of(
+                new JacksonException.Reference(this, "userName"));
 
         assertThat(JacksonFieldPathSerializer.serializePath(path)).isEqualTo("userName");
     }
 
     @Test
     void nestedFieldPath() {
-        List<JsonMappingException.Reference> path = List.of(
-                new JsonMappingException.Reference(this, "address"),
-                new JsonMappingException.Reference(this, "city"));
+        List<JacksonException.Reference> path = List.of(
+                new JacksonException.Reference(this, "address"),
+                new JacksonException.Reference(this, "city"));
 
         assertThat(JacksonFieldPathSerializer.serializePath(path)).isEqualTo("address.city");
     }
 
     @Test
     void arrayIndexInPath() {
-        List<JsonMappingException.Reference> path = List.of(
-                new JsonMappingException.Reference(this, "items"),
-                new JsonMappingException.Reference(this, 2),
-                new JsonMappingException.Reference(this, "name"));
+        List<JacksonException.Reference> path = List.of(
+                new JacksonException.Reference(this, "items"),
+                new JacksonException.Reference(this, 2),
+                new JacksonException.Reference(this, "name"));
 
         assertThat(JacksonFieldPathSerializer.serializePath(path)).isEqualTo("items[2].name");
     }
@@ -45,27 +45,27 @@ class JacksonFieldPathSerializerTest {
 
     @Test
     void pathStartingWithArrayIndex() {
-        List<JsonMappingException.Reference> path = List.of(
-                new JsonMappingException.Reference(this, 0),
-                new JsonMappingException.Reference(this, "name"));
+        List<JacksonException.Reference> path = List.of(
+                new JacksonException.Reference(this, 0),
+                new JacksonException.Reference(this, "name"));
 
         assertThat(JacksonFieldPathSerializer.serializePath(path)).isEqualTo("[0].name");
     }
 
     @Test
     void onlyArrayIndex() {
-        List<JsonMappingException.Reference> path = List.of(
-                new JsonMappingException.Reference(this, 5));
+        List<JacksonException.Reference> path = List.of(
+                new JacksonException.Reference(this, 5));
 
         assertThat(JacksonFieldPathSerializer.serializePath(path)).isEqualTo("[5]");
     }
 
     @Test
     void consecutiveArrayIndices() {
-        List<JsonMappingException.Reference> path = List.of(
-                new JsonMappingException.Reference(this, "matrix"),
-                new JsonMappingException.Reference(this, 1),
-                new JsonMappingException.Reference(this, 3));
+        List<JacksonException.Reference> path = List.of(
+                new JacksonException.Reference(this, "matrix"),
+                new JacksonException.Reference(this, 1),
+                new JacksonException.Reference(this, 3));
 
         assertThat(JacksonFieldPathSerializer.serializePath(path)).isEqualTo("matrix[1][3]");
     }

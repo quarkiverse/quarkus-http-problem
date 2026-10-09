@@ -8,14 +8,13 @@ import jakarta.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonParseException;
-
 import io.quarkiverse.httpproblem.DetailSanitizer;
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.postprocessing.PostProcessorsRegistry;
 import io.quarkiverse.httpproblem.postprocessing.ProblemDefaultsProvider;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLogger;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLoggingConfig;
+import tools.jackson.core.exc.StreamReadException;
 
 class JsonProcessingExceptionMapperTest {
 
@@ -25,7 +24,7 @@ class JsonProcessingExceptionMapperTest {
     @Test
     void shouldProduceHttp400WithOriginalMessageWhenIncludeDetails() {
         JsonProcessingExceptionMapper mapper = new JsonProcessingExceptionMapper(registry, new DetailSanitizer(true));
-        JsonParseException exception = new JsonParseException("Unexpected end-of-input");
+        StreamReadException exception = new StreamReadException(null, "Unexpected end-of-input");
 
         Response response = mapper.toResponse(exception);
 
@@ -39,7 +38,7 @@ class JsonProcessingExceptionMapperTest {
     @Test
     void shouldSanitizeDetailByDefault() {
         JsonProcessingExceptionMapper mapper = new JsonProcessingExceptionMapper(registry, new DetailSanitizer(false));
-        JsonParseException exception = new JsonParseException("Unexpected end-of-input");
+        StreamReadException exception = new StreamReadException(null, "Unexpected end-of-input");
 
         Response response = mapper.toResponse(exception);
 

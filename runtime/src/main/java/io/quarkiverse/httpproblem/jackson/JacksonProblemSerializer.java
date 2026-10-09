@@ -1,14 +1,13 @@
 package io.quarkiverse.httpproblem.jackson;
 
-import java.io.IOException;
 import java.util.Map;
-
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.InstanceUtils;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ser.std.StdSerializer;
 
 /**
  * Low level Jackson serializer for HttpProblem type.
@@ -24,26 +23,26 @@ public final class JacksonProblemSerializer extends StdSerializer<HttpProblem> {
     }
 
     @Override
-    public void serialize(final HttpProblem problem, final JsonGenerator json, final SerializerProvider serializers)
-            throws IOException {
+    public void serialize(final HttpProblem problem, final JsonGenerator json, final SerializationContext serializers)
+            throws JacksonException {
         json.writeStartObject();
         if (problem.getType() != null) {
-            json.writeStringField("type", problem.getType().toASCIIString());
+            json.writeStringProperty("type", problem.getType().toASCIIString());
         }
-        json.writeNumberField("status", problem.getStatusCode());
+        json.writeNumberProperty("status", problem.getStatusCode());
 
         if (problem.getTitle() != null) {
-            json.writeStringField("title", problem.getTitle());
+            json.writeStringProperty("title", problem.getTitle());
         }
         if (problem.getDetail() != null) {
-            json.writeStringField("detail", problem.getDetail());
+            json.writeStringProperty("detail", problem.getDetail());
         }
         if (problem.getInstance() != null) {
-            json.writeStringField("instance", InstanceUtils.instanceToPath(problem.getInstance()));
+            json.writeStringProperty("instance", InstanceUtils.instanceToPath(problem.getInstance()));
         }
 
         for (Map.Entry<String, Object> entry : problem.getParameters().entrySet()) {
-            json.writeObjectField(entry.getKey(), entry.getValue());
+            json.writePOJOProperty(entry.getKey(), entry.getValue());
         }
 
         json.writeEndObject();
