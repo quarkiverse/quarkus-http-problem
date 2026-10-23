@@ -5,12 +5,11 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.core.Response;
 
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-
 import io.quarkiverse.httpproblem.DetailSanitizer;
 import io.quarkiverse.httpproblem.ExceptionMapperBase;
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.postprocessing.PostProcessorsRegistry;
+import tools.jackson.databind.exc.MismatchedInputException;
 
 @Priority(Priorities.USER - 1)
 public final class MismatchedInputExceptionMapper extends ExceptionMapperBase<MismatchedInputException> {

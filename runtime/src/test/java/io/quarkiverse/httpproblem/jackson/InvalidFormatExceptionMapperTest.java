@@ -9,16 +9,15 @@ import jakarta.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-
 import io.quarkiverse.httpproblem.DetailSanitizer;
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.postprocessing.PostProcessorsRegistry;
 import io.quarkiverse.httpproblem.postprocessing.ProblemDefaultsProvider;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLogger;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLoggingConfig;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.exc.InvalidFormatException;
 
 class InvalidFormatExceptionMapperTest {
 
@@ -29,7 +28,7 @@ class InvalidFormatExceptionMapperTest {
     @Test
     void shouldProduceHttp400WithFieldInfo() {
         InvalidFormatException exception = buildExceptionWithPath(
-                new JsonMappingException.Reference(this, "customFieldName"));
+                new JacksonException.Reference(this, "customFieldName"));
 
         Response response = mapper.toResponse(exception);
 
@@ -44,9 +43,9 @@ class InvalidFormatExceptionMapperTest {
     @Test
     void invalidFormatInsideCollectionShouldShowValidPath() {
         InvalidFormatException exception = buildExceptionWithPath(
-                new JsonMappingException.Reference(this, "collection"),
-                new JsonMappingException.Reference(this, 2),
-                new JsonMappingException.Reference(this, "customFieldName"));
+                new JacksonException.Reference(this, "collection"),
+                new JacksonException.Reference(this, 2),
+                new JacksonException.Reference(this, "customFieldName"));
 
         Response response = mapper.toResponse(exception);
 
@@ -70,7 +69,7 @@ class InvalidFormatExceptionMapperTest {
     void shouldSanitizeDetailByDefault() {
         InvalidFormatExceptionMapper sanitizedMapper = new InvalidFormatExceptionMapper(registry, new DetailSanitizer(false));
         InvalidFormatException exception = buildExceptionWithPath(
-                new JsonMappingException.Reference(this, "customFieldName"));
+                new JacksonException.Reference(this, "customFieldName"));
 
         Response response = sanitizedMapper.toResponse(exception);
 
@@ -84,7 +83,7 @@ class InvalidFormatExceptionMapperTest {
     @Test
     void shouldPreserveDetailWhenIncludeDetails() {
         InvalidFormatException exception = buildExceptionWithPath(
-                new JsonMappingException.Reference(this, "customFieldName"));
+                new JacksonException.Reference(this, "customFieldName"));
 
         Response response = mapper.toResponse(exception);
 
@@ -93,7 +92,7 @@ class InvalidFormatExceptionMapperTest {
                 .hasFieldOrPropertyWithValue("detail", "Invalid format of the field");
     }
 
-    private InvalidFormatException buildExceptionWithPath(JsonMappingException.Reference... pathSegments) {
+    private InvalidFormatException buildExceptionWithPath(JacksonException.Reference... pathSegments) {
         InvalidFormatException exception = new InvalidFormatException(mock(JsonParser.class),
                 "Invalid format of the field", this, this.getClass());
 

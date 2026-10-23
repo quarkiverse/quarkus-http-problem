@@ -3,23 +3,23 @@ package io.quarkiverse.httpproblem.jackson;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
+import tools.jackson.core.JacksonException;
 
 final class JacksonFieldPathSerializer {
 
     private JacksonFieldPathSerializer() {
     }
 
-    static String serializePath(List<JsonMappingException.Reference> path) {
+    static String serializePath(List<JacksonException.Reference> path) {
         String pathString = path.stream()
                 .map(JacksonFieldPathSerializer::refToString)
                 .collect(Collectors.joining());
         return removeFirstDot(pathString);
     }
 
-    private static String refToString(JsonMappingException.Reference ref) {
-        if (ref.getFieldName() != null) {
-            return "." + ref.getFieldName();
+    private static String refToString(JacksonException.Reference ref) {
+        if (ref.getPropertyName() != null) {
+            return "." + ref.getPropertyName();
         }
         if (ref.getIndex() >= 0) {
             return "[" + ref.getIndex() + "]";

@@ -113,6 +113,19 @@
                     <artifactId>quarkus-resteasy-jackson</artifactId>
                 </dependency>
             </dependencies>
+            <!-- TODO remove once https://github.com/quarkusio/quarkus/pull/57782 is included in Quarkus 4.0.0.Beta2 -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <resteasy-classic>true</resteasy-classic>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>jsonb</id>

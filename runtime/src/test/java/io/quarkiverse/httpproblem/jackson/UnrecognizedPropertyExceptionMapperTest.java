@@ -10,14 +10,13 @@ import jakarta.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
-
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.postprocessing.PostProcessorsRegistry;
 import io.quarkiverse.httpproblem.postprocessing.ProblemDefaultsProvider;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLogger;
 import io.quarkiverse.httpproblem.postprocessing.ProblemLoggingConfig;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.exc.UnrecognizedPropertyException;
 
 class UnrecognizedPropertyExceptionMapperTest {
 

@@ -4,6 +4,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.either;
@@ -31,6 +32,8 @@ class RestClientTest {
                 .body("instance", equalTo("/throw-via-rest-client"));
     }
 
+    // TODO remove @DisabledIfSystemProperty once https://github.com/quarkusio/quarkus/pull/57782 is included in Quarkus 4.0.0.Beta2
+    @DisabledIfSystemProperty(named = "resteasy-classic", matches = "true")
     @Test
     void shouldRethrowHttpProblemFromUpstreamServiceWithOverriddenInstance() {
         given()
@@ -52,6 +55,8 @@ class RestClientTest {
                 .statusCode(409); 
     }
 
+    // TODO remove @DisabledIfSystemProperty once https://github.com/quarkusio/quarkus/pull/57782 is included in Quarkus 4.0.0.Beta2
+    @DisabledIfSystemProperty(named = "resteasy-classic", matches = "true")
     @Test
     void shouldRethrowHttpProblemWhenContentTypeHasCharsetParameter() {    
         given()

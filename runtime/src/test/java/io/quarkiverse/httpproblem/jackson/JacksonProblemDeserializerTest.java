@@ -11,25 +11,23 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-
 import io.quarkiverse.httpproblem.HttpProblem;
 import io.quarkiverse.httpproblem.HttpProblemMother;
+import tools.jackson.core.exc.StreamReadException;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 
 class JacksonProblemDeserializerTest {
 
-    ObjectMapper mapper = new ObjectMapper();
+    JsonMapper mapper;
 
     @BeforeEach
     void setup() {
-        mapper.registerModule(
-                new SimpleModule("RFC7807 problem")
-                        .addSerializer(HttpProblem.class, new JacksonProblemSerializer())
-                        .addDeserializer(HttpProblem.class, new JacksonProblemDeserializer(mapper)));
-
+        SimpleModule module = new SimpleModule("RFC7807 problem")
+                .addSerializer(HttpProblem.class, new JacksonProblemSerializer())
+                .addDeserializer(HttpProblem.class, new JacksonProblemDeserializer());
+        mapper = JsonMapper.builder().addModule(module).build();
     }
 
     @Test
@@ -107,7 +105,7 @@ class JacksonProblemDeserializerTest {
                 """;
 
         assertThatThrownBy(() -> deserialise(problem))
-                .isInstanceOf(JsonMappingException.class)
+                .isInstanceOf(DatabindException.class)
                 .hasMessageStartingWith("'type' field must be a valid URI");
     }
 
@@ -122,7 +120,7 @@ class JacksonProblemDeserializerTest {
                 """;
 
         assertThatThrownBy(() -> deserialise(problem))
-                .isInstanceOf(JsonMappingException.class)
+                .isInstanceOf(DatabindException.class)
                 .hasMessageStartingWith("'instance' field must be a valid URI");
     }
 
@@ -135,7 +133,7 @@ class JacksonProblemDeserializerTest {
                 """;
 
         assertThatThrownBy(() -> deserialise(problem))
-                .isInstanceOf(JsonMappingException.class)
+                .isInstanceOf(DatabindException.class)
                 .hasMessageStartingWith("'status' field must be a valid http status code");
     }
 
@@ -148,9 +146,9 @@ class JacksonProblemDeserializerTest {
                 """;
 
         assertThatThrownBy(() -> deserialise(problem))
-                .isInstanceOf(JsonParseException.class)
+                .isInstanceOf(StreamReadException.class)
                 .hasMessageStartingWith(
-                        "Unexpected character ('}' (code 125)): was expecting double-quote to start field name");
+                        "Unexpected character ('}' (code 125)): was expecting double-quote to start property name");
     }
 
     private HttpProblem deserialise(String json) throws IOException {
