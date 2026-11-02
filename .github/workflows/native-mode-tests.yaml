@@ -7,7 +7,7 @@ on:
 
 jobs:
   test-core-native:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       max-parallel: 2
       matrix:
