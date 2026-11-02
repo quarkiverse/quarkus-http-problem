@@ -14,7 +14,6 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 
 @QuarkusTest
 class Rfc9457CompleteProblemTest {
@@ -23,8 +22,6 @@ class Rfc9457CompleteProblemTest {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
-    // TODO remove @DisabledIfSystemProperty once https://github.com/quarkusio/quarkus/pull/57782 is included in Quarkus 4.0.0.Beta2
-    @DisabledIfSystemProperty(named = "resteasy-classic", matches = "true")
     @Test
     @DisplayName("RFC 9457 Section 3 - Content-Type should be application/problem+json for complete problem")
     void contentTypeShouldBeApplicationProblemJsonForCompleteProblem() {
@@ -37,8 +34,6 @@ class Rfc9457CompleteProblemTest {
         assertThat(contentType).contains("application/problem+json");
     }
 
-    // TODO remove @DisabledIfSystemProperty once https://github.com/quarkusio/quarkus/pull/57782 is included in Quarkus 4.0.0.Beta2
-    @DisabledIfSystemProperty(named = "resteasy-classic", matches = "true")
     @Test
     @DisplayName("RFC 9457 Section 3 - Content-Type should be application/problem+json for minimal problem")
     void contentTypeShouldBeApplicationProblemJsonForMinimalProblem() {
@@ -51,8 +46,6 @@ class Rfc9457CompleteProblemTest {
         assertThat(contentType).contains("application/problem+json");
     }
 
-    // TODO remove @DisabledIfSystemProperty once https://github.com/quarkusio/quarkus/pull/57782 is included in Quarkus 4.0.0.Beta2
-    @DisabledIfSystemProperty(named = "resteasy-classic", matches = "true")
     @Test
     @DisplayName("RFC 9457 Section 3 - Content-Type should be application/problem+json for about:blank problem")
     void contentTypeShouldBeApplicationProblemJsonForAboutBlank() {
