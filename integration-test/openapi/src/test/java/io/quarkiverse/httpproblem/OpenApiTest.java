@@ -32,6 +32,17 @@ class OpenApiTest {
                 .body("components.schemas.HttpValidationProblem.additionalProperties", equalTo(true));
     }
 
+    /**
+     * RFC 9457 sections 3.1.1 and 3.1.5 define both members as URI references, and the default instance is the
+     * request path, a relative reference
+     */
+    @Test
+    void shouldDocumentTypeAndInstanceAsUriReferences() {
+        getOpenApi()
+                .body("components.schemas.HttpProblem.properties.type.format", equalTo("uri-reference"))
+                .body("components.schemas.HttpProblem.properties.instance.format", equalTo("uri-reference"));
+    }
+
     @Test
     void shouldAddHttpProblemApiResponseFromAnnotationIfContentIsNotDefined() {
         getOpenApi()
