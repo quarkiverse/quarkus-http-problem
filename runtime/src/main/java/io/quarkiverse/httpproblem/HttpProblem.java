@@ -26,7 +26,7 @@ public class HttpProblem extends RuntimeException {
 
     public static final MediaType MEDIA_TYPE = new MediaType("application", "problem+json");
 
-    @Schema(description = "A optional URI reference that identifies the problem type", examples = "https://example.com/errors/not-found")
+    @Schema(description = "A optional URI reference that identifies the problem type", format = "uri-reference", examples = "https://example.com/errors/not-found")
     private final URI type;
 
     @Schema(description = "A optional, short, human-readable summary of the problem type", examples = "Not Found")
@@ -38,7 +38,7 @@ public class HttpProblem extends RuntimeException {
     @Schema(description = "A optional human-readable explanation specific to this occurrence of the problem", examples = "Record not found")
     private final String detail;
 
-    @Schema(description = "A URI reference that identifies the specific occurrence of the problem", examples = "https://api.example.com/errors/123")
+    @Schema(description = "A URI reference that identifies the specific occurrence of the problem", format = "uri-reference", examples = "https://api.example.com/errors/123")
     private final URI instance;
 
     @Schema(hidden = true)
